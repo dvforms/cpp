@@ -13,5 +13,5 @@ matrix:
             packages:
               - cmake-data
               - cmake
-              - ninja
+              - ninja-buil
 
