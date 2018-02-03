@@ -1,4 +1,4 @@
 add_executable ( testforms testmain.cpp DVFormGeneratorTest.cpp )
 target_link_libraries ( testforms GTest GMock dvforms )
 
-add_test ( NAME testforms COMMAND testforms WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
+add_test ( NAME testforms COMMAND ${CMAKE_SOURCE_DIR}/scripts/testdriver.sh $<TARGET_FILE:testforms> WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
