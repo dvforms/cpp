@@ -7,6 +7,7 @@ node("cmake") {
             cache(caches: [[$class: 'ArbitraryFileCache', excludes: '', includes: '**/*.zip,**/*.tar.gz', path: 'external']], maxCacheSize: 100) {
                 sh 'nice ${CMAKE} -G Ninja ../ -DBUILD_TESTING=ON -DVALGRIND_XML=ON -DCPACK_BINARY_RPM=ON -DCMAKE_BUILD_TYPE=Debug'
                 sh 'nice ${CMAKE} --build . -- -j2 -l15 all'
+                sh 'nice ${CMAKE} --build . -- -j2 -l15 checks'
                 catchError {
                     sh 'nice ${CTEST} --verbose .'
                 }
@@ -33,3 +34,7 @@ node("cmake") {
         }
     }
 }
+warnings canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [
+        [parserName: 'GNU C Compiler 4 (gcc)']
+], healthy: '0', unstableTotalAll: '0', excludePattern: '.*/include/gmock/.*,.*/include/gtest/.*'
+emailext body: '${JELLY_SCRIPT,template="html"}', mimeType: 'text/html', subject: 'DVForms-CPP', to: 'david@vanlaatum.id.au'

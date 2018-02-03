@@ -16,4 +16,3 @@ matrix:
               - cmake-data
               - cmake
               - ninja-build
-
