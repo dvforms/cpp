@@ -5,6 +5,8 @@ compiler: clang
 matrix:
   include:
     - os: osx
+      before_install:
+        - brew install ninja-build
     - os: linux
       addons:
           apt:
