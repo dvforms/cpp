@@ -13,7 +13,7 @@ if ( CLANG AND CLANGPP )
   endif ()
 endif ()
 
-project ( dvmon VERSION 1.0.0 )
+project ( dvforms-cpp VERSION 1.0.0 )
 set ( CMAKE_CXX_STANDARD 11 )
 set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 if ( NOT ${CMAKE_VERSION} VERSION_LESS 3.9 )
@@ -24,9 +24,17 @@ include ( FeatureSummary )
 include ( GNUInstallDirs )
 include ( CheckCXXCompilerFlag )
 include ( GenerateExportHeader )
+include ( GTest )
+find_package ( valgrind )
+
+option ( TEST Enable testing )
 
 add_subdirectory ( src )
+if ( TEST )
+  add_subdirectory ( test )
+endif ()
 
 export ( EXPORT dvforms-cpp )
+include ( cpack )
 
 feature_summary ( WHAT ALL )
