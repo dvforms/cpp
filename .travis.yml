@@ -12,3 +12,4 @@ matrix:
             packages:
               - cmake-data
               - cmake
+
