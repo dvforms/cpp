@@ -13,7 +13,7 @@ if ( CLANG AND CLANGPP )
   endif ()
 endif ()
 
-project ( dvforms-cpp VERSION 1.0.0 )
+project ( dvformscpp VERSION 1.0.0 )
 set ( CMAKE_CXX_STANDARD 11 )
 set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 if ( NOT ${CMAKE_VERSION} VERSION_LESS 3.9 )
@@ -31,9 +31,27 @@ find_package ( valgrind )
 add_subdirectory ( src )
 if ( BUILD_TESTING )
   add_subdirectory ( test )
+
+  add_custom_target ( installtest
+                      COMMAND ${CMAKE_COMMAND} -E remove_directory installtest
+                      COMMAND ${CMAKE_COMMAND} -E remove ${CMAKE_BINARY_DIR}/install_manifest*
+                      COMMAND ${CMAKE_COMMAND} -E env DESTDIR=installtest ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target install
+                      )
 endif ()
 
-export ( EXPORT dvforms-cpp )
 include ( CPack )
 
+include ( CMakePackageConfigHelpers )
+write_basic_package_version_file ( "${CMAKE_CURRENT_BINARY_DIR}/dvformscppVersion.cmake"
+                                   VERSION ${PROJECT_VERSION} COMPATIBILITY AnyNewerVersion )
+export ( EXPORT dvformscpp FILE "${CMAKE_CURRENT_BINARY_DIR}/dvformscppConfig.cmake" )
+install ( EXPORT dvformscpp
+          FILE dvformscppConfig.cmake
+          DESTINATION lib/cmake/dvforms
+          )
+install ( FILES "${CMAKE_CURRENT_BINARY_DIR}/dvformscppVersion.cmake"
+          DESTINATION lib/cmake/dvforms
+          COMPONENT Devel
+          )
 feature_summary ( WHAT ALL )
+export ( PACKAGE dvformscpp )

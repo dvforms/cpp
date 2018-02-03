@@ -1,3 +1,3 @@
 add_library ( dvforms SHARED DVFormGenerator.cpp DVFormGenerator.h )
-install ( TARGETS dvforms EXPORT dvforms-cpp DESTINATION ${CMAKE_INSTALL_SBINDIR} )
+install ( TARGETS dvforms EXPORT dvformscpp DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 
