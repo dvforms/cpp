@@ -1,0 +1,14 @@
+language: cpp
+script: cmake
+compiler: clang
+matrix:
+  include:
+    - os: osx
+    - os: linux
+        addons:
+          apt:
+            sources:
+              - george-edison55-precise-backports
+            packages:
+              - cmake-data
+              - cmake
