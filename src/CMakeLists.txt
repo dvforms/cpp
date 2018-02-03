@@ -4,3 +4,4 @@ target_include_directories ( dvforms PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SO
                              $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
                              $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/dvformscpp/> )
 iwyu_target ( dvforms )
+clang_tidy_target ( dvforms )

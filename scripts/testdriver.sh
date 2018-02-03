@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 TEST=$1
+if [ -z "$1" ]
+then
+    echo No test
+fi
+
 if [ ! -z "${VALGRIND}" ]
 then
     export GTEST_OUTPUT="xml:${NAME}-valgrindunit.xml"
