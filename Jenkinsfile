@@ -1,4 +1,4 @@
-node("cmake && iwyu && cppcheck && clang-tidy") {
+node("cmake && iwyu && cppcheck && clangtidy") {
     checkout scm
     def cmake = sh returnStdout: true, script: 'which cmake3 cmake | head -n1'
     def ctest = sh returnStdout: true, script: 'which ctest3 ctest | head -n1'
