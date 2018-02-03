@@ -37,11 +37,11 @@ node("cmake && iwyu && cppcheck && clangtidy") {
                                stopProcessingIfError: true]
                       ]
                 ])
+                warnings canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [
+                        [parserName: 'GNU C Compiler 4 (gcc)']
+                ], healthy: '0', unstableTotalAll: '0', excludePattern: '.*/include/gmock/.*,.*/include/gtest/.*'
             }
         }
     }
 }
-warnings canComputeNew: false, canResolveRelativePaths: false, consoleParsers: [
-        [parserName: 'GNU C Compiler 4 (gcc)']
-], healthy: '0', unstableTotalAll: '0', excludePattern: '.*/include/gmock/.*,.*/include/gtest/.*'
 emailext body: '${JELLY_SCRIPT,template="html"}', mimeType: 'text/html', subject: 'DVForms-CPP', to: 'david@vanlaatum.id.au'
