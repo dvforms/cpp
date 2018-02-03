@@ -1,9 +1,10 @@
 language: cpp
 script:
     - mkdir build
-    - cd build && cmake ../ -DTEST=ON
-    - cmake --build build
-    - ctest --verbose build
+    - cd build
+    - cmake ../ -DTEST=ON
+    - cmake --build .
+    - ctest --verbose .
 compiler: clang
 matrix:
   include:
