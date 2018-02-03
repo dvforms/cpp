@@ -1,3 +1,9 @@
+properties([
+        disableConcurrentBuilds(),
+        buildDiscarder([$class: 'EnhancedOldBuildDiscarder', artifactDaysToKeepStr: '7', artifactNumToKeepStr: '10', daysToKeepStr: '365', discardOnlyOnSuccess: false, numToKeepStr: '']),
+        pipelineTriggers([upstream('docker'),cron('@weekly'), pollSCM('@hourly')])
+])
+
 node("cmake && iwyu && cppcheck && clangtidy") {
     checkout scm
     def cmake = sh returnStdout: true, script: 'which cmake3 cmake | head -n1'
