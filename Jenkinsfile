@@ -5,7 +5,7 @@ node("cmake") {
     withEnv(["CMAKE=${cmake}", "CTEST=${ctest}", "IGNORE_EXIT_CODE=1"]) {
         dir("build") {
             cache(caches: [[$class: 'ArbitraryFileCache', excludes: '', includes: '**/*.zip,**/*.tar.gz', path: 'external']], maxCacheSize: 100) {
-                sh 'nice ${CMAKE} -G Ninja ../ -DTEST=ON -DVALGRIND_XML=ON -DCPACK_BINARY_RPM=ON -DCMAKE_BUILD_TYPE=Debug'
+                sh 'nice ${CMAKE} -G Ninja ../ -DBUILD_TESTING=ON -DVALGRIND_XML=ON -DCPACK_BINARY_RPM=ON -DCMAKE_BUILD_TYPE=Debug'
                 sh 'nice ${CMAKE} --build . -- -j2 -l15 all'
                 catchError {
                     sh 'nice ${CTEST} --verbose .'

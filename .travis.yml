@@ -1,10 +1,6 @@
 language: cpp
 script:
-    - mkdir build
-    - cd build
-    - cmake ../ -DTEST=ON
-    - cmake --build .
-    - ctest --verbose .
+    - ctest --build-and-test . build --build-generator Ninja -VV --build-two-config --test-command ctest -V
 compiler: clang
 matrix:
   include:

@@ -25,12 +25,11 @@ include ( GNUInstallDirs )
 include ( CheckCXXCompilerFlag )
 include ( GenerateExportHeader )
 include ( GTest )
+include ( CTest )
 find_package ( valgrind )
 
-option ( TEST Enable testing )
-
 add_subdirectory ( src )
-if ( TEST )
+if ( BUILD_TESTING )
   add_subdirectory ( test )
 endif ()
 
