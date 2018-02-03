@@ -35,6 +35,6 @@ if ( TEST )
 endif ()
 
 export ( EXPORT dvforms-cpp )
-include ( cpack )
+include ( CPack )
 
 feature_summary ( WHAT ALL )
