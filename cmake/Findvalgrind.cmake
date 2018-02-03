@@ -1,4 +1,4 @@
-find_package ( pkgconfig )
+find_package ( PkgConfig )
 option ( VALGRIND "Enable valgrind" ON )
 if ( VALGRIND )
   find_program ( VALGRIND_PATH valgrind )
