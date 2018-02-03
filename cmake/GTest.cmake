@@ -22,11 +22,11 @@ externalproject_add ( GTestExternal
 
 add_library ( GTest INTERFACE )
 target_include_directories ( GTest SYSTEM INTERFACE "${GTEST_INCLUDES}" )
-target_link_libraries ( GTest INTERFACE "${GTEST_LIBRARY}" )
+target_link_libraries ( GTest INTERFACE "${GTEST_LIBRARY}" Threads::Threads )
 
 add_library ( GMock INTERFACE )
 target_include_directories ( GMock SYSTEM INTERFACE "${GMOCK_INCLUDES}" )
-target_link_libraries ( GMock INTERFACE "${GMOCK_LIBRARY}" )
+target_link_libraries ( GMock INTERFACE "${GMOCK_LIBRARY}" Threads::Threads )
 
 add_dependencies ( GTest GTestExternal )
 add_dependencies ( GMock GTestExternal )
