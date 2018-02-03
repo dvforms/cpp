@@ -2,6 +2,7 @@ node("cmake && iwyu && cppcheck && clangtidy") {
     checkout scm
     def cmake = sh returnStdout: true, script: 'which cmake3 cmake | head -n1'
     def ctest = sh returnStdout: true, script: 'which ctest3 ctest | head -n1'
+    sh 'find . -ls'
     withEnv(["CMAKE=${cmake}", "CTEST=${ctest}", "IGNORE_EXIT_CODE=1"]) {
         dir("build") {
             cache(caches: [[$class: 'ArbitraryFileCache', excludes: '', includes: '**/*.zip,**/*.tar.gz', path: 'external']], maxCacheSize: 100) {
