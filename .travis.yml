@@ -1,8 +1,10 @@
 language: cpp
 script:
     - chmod a+x scripts/*
-    - ctest --build-and-test . build --build-generator Ninja -VV --build-two-config --test-command ctest -V
-compiler: clang
+    - ctest --build-and-test . build --build-generator Ninja -VV --build-two-config --test-command ctest -V -DDONT_PREFER_CLANG=ON
+compiler:
+  - clang
+  - gcc
 matrix:
   include:
     - os: osx
