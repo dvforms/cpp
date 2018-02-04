@@ -62,6 +62,7 @@ function ( iwyu_target TARGET )
                             LINK_DEPENDS ${CMAKE_BINARY_DIR}/iwyu_combine.sh
                             RULE_LAUNCH_LINK ${CMAKE_BINARY_DIR}/iwyu_combine.sh )
     copy_target_properties ( ${TARGET} _iwyu )
+    set_source_files_properties ( ${SOURCES} PROPERTIES OBJECT_DEPENDS ${CMAKE_SOURCE_DIR}/iwyu.imp )
     target_include_directories ( ${TARGET}_iwyu SYSTEM PUBLIC ${CXX_DEFAULT_INCLUDES} )
     add_for_headers ( ${TARGET}_iwyu )
     add_dependencies ( iwyu ${TARGET}_iwyu )

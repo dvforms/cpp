@@ -2,6 +2,10 @@
 #include "JSONPath.h"
 #include <sstream>
 #include <set>
+#include <boost/type_index.hpp>   // for type_info
+#include <boost/variant/get.hpp>  // for get
+#include <typeinfo>               // for type_info
+#include <utility>                // for pair
 
 using namespace dv::json;
 

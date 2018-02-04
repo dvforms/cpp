@@ -7,6 +7,12 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <cstddef>           // for size_t
+#include <cstdint>            // for int64_t
+#include <iosfwd>             // for ostream, nullptr_t
+#include <string>             // for string
+#include <type_traits>        // for declval, enable_if, false_type, is_integral, is_same
+#include <algorithm>          // for forward
 
 namespace dv {
   namespace json {
@@ -24,17 +30,6 @@ namespace dv {
 
     class JSON;
     class JSONPath;
-
-    template<typename T>
-      struct has_to_json {
-      private:
-        template<typename X>
-        static constexpr auto check( X * ) -> typename std::is_same<decltype( to_json( std::declval<JSON &>(), std::declval<const X &>() ) ), void>::type;
-        template<typename> static constexpr std::false_type check( ... );
-        typedef decltype( check<T>( 0 ) ) type;
-      public:
-        static constexpr bool value = type::value;
-      };
 
     class JSONDiffListener {
     public:
@@ -85,9 +80,6 @@ namespace dv {
       JSON( JSON &&other ) = default;
       ~JSON() = default;
 
-      template<typename T, typename std::enable_if<has_to_json<T>::value, int>::type = 0>
-      inline JSON &operator=( const T &v );
-
       JSON &operator=( nullType );
       JSON &operator=( boolType v );
       JSON &operator=( const stringType &v );
@@ -96,13 +88,7 @@ namespace dv {
       JSON &operator=( doubleType );
       JSON &operator=( const JSON &other ) = default;
       JSON &operator=( JSON &&other ) = default;
-
-      template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
-      inline JSON &operator=( T v ) {
-        *this = static_cast<intType>(v);
-        return *this;
-      }
-
+      template<typename T> inline JSON &operator=( const T &v );
       JSON &operator[]( const keyType &key ) __attribute__((pure));
       JSON &operator[]( indexType index ) __attribute__((pure));
       bool operator==( const JSON &other ) const;
@@ -119,9 +105,80 @@ namespace dv {
       bool compare( const JSON &other, JSONDiffListener &listener, const JSONPath &path ) const;
     };
 
-    template<typename T, typename std::enable_if<has_to_json<T>::value, int>::type>
-    JSON &JSON::operator=( const T &v ) {
-      to_json( *this, v );
+    template<unsigned N> struct PriorityTag : PriorityTag<N - 1> {};
+    template<> struct PriorityTag<0> {};
+
+    namespace detail {
+      struct to_json_function {
+      private:
+        template<typename BasicJsonType, typename T>
+        auto call( BasicJsonType &j, T &&val, PriorityTag<1> ) const noexcept( noexcept( to_json( j, std::forward<T>( val ) ) ) )
+        -> decltype( to_json( j, std::forward<T>( val ) ), void() ) {
+          return to_json( j, std::forward<T>( val ) );
+        }
+
+        template<typename BasicJsonType, typename T>
+        void call( BasicJsonType &, T &&, PriorityTag<0> ) const noexcept {
+          static_assert( sizeof( BasicJsonType ) == 0, "could not find to_json() method in T's namespace" );
+        }
+
+      public:
+        template<typename BasicJsonType, typename T>
+        void operator()( BasicJsonType &j, T &&val ) const noexcept( noexcept( std::declval<to_json_function>().call( j, std::forward<T>( val ),
+                                                                                                                      PriorityTag<1> {} ) ) ) {
+          return call( j, std::forward<T>( val ), PriorityTag<1> {} );
+        }
+      };
+
+      struct from_json_function {
+      private:
+        template<typename BasicJsonType, typename T>
+        auto call( const BasicJsonType &j, T &val, PriorityTag<1> ) const noexcept( noexcept( from_json( j, val ) ) )
+        -> decltype( from_json( j, val ), void() ) {
+          return from_json( j, val );
+        }
+
+        template<typename BasicJsonType, typename T>
+        void call( const BasicJsonType &, T &, PriorityTag<0> ) const noexcept {
+          static_assert( sizeof( BasicJsonType ) == 0, "could not find from_json() method in T's namespace" );
+        }
+
+      public:
+        template<typename BasicJsonType, typename T>
+        void operator()( const BasicJsonType &j, T &val ) const noexcept( noexcept( std::declval<from_json_function>().call( j, val, PriorityTag<1> {} ) ) ) {
+          return call( j, val, PriorityTag<1> {} );
+        }
+      };
+
+      template<typename T>
+        struct static_const {
+          static constexpr T value{};
+        };
+
+      template<typename T>
+        constexpr T static_const<T>::value;
+    }
+
+    namespace {
+      constexpr const auto &to_json = detail::static_const<detail::to_json_function>::value;
+      constexpr const auto &from_json = detail::static_const<detail::from_json_function>::value;
+    }
+
+    template<typename = void>
+      struct JSONSerialiser {
+        template<typename BasicJsonType, typename ValueType>
+        static void from_json( BasicJsonType &&j, ValueType &val ) noexcept( noexcept( ::dv::json::from_json( std::forward<BasicJsonType>( j ), val ) ) ) {
+          ::dv::json::from_json( std::forward<BasicJsonType>( j ), val );
+        }
+
+        template<typename BasicJsonType, typename ValueType>
+        static void to_json( BasicJsonType &j, ValueType &&val ) noexcept( noexcept( ::dv::json::to_json( j, std::forward<ValueType>( val ) ) ) ) {
+          ::dv::json::to_json( j, std::forward<ValueType>( val ) );
+        }
+      };
+
+    template<typename T> JSON &JSON::operator=( const T &v ) {
+      JSONSerialiser<T>::to_json( *this, v );
       return *this;
     }
 
@@ -133,7 +190,41 @@ namespace dv {
       }
     }
 
+    template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+    inline void to_json( JSON &json, T v ) {
+      json = static_cast<int64_t>(v);
+    };
+
     std::ostream &operator<<( std::ostream &os, const JSON &json );
+
+    namespace detail {
+      class to_json_visitor : public boost::static_visitor<> {
+      public:
+        explicit to_json_visitor( JSON &njson ) : json( &njson ) {}
+
+        template<class T> void operator()( const std::shared_ptr<T> &value ) {
+          if ( value ) {
+            *json = *value;
+          }
+        }
+
+        template<class T> void operator()( const std::weak_ptr<T> &value ) {
+          ( *this )( value.lock() );
+        }
+
+        template<class T> void operator()( T &value ) {
+          *json = value;
+        }
+
+      protected:
+        JSON *json;
+      };
+    }
+
+    template<typename... Args> inline void to_json( JSON &json, const boost::variant<Args...> &value ) {
+      detail::to_json_visitor visitor( json );
+      value.apply_visitor( visitor );
+    }
   }
 }
 

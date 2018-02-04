@@ -4,6 +4,8 @@
 
 #include "FormInput.h"
 #include <boost/variant.hpp>
+#include <memory>             // for shared_ptr, weak_ptr
+#include "FieldType.h"        // for json
 
 namespace dv {
   namespace forms {

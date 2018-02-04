@@ -6,6 +6,8 @@
 #include "FormGenerator.h"
 #include <memory>
 #include <unordered_map>
+#include <string>              // for string
+#include <cstdint>          // for int32_t
 
 namespace dv {
   namespace forms {

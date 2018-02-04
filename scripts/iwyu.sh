@@ -17,6 +17,11 @@ EXIT=$?
 if [ "$EXIT" -gt 2 ]
 then
     cat $LOGFILE
+    if [ "$EXIT" -gt 128 ]
+    then
+        rm $LOGFILE
+        exit $EXIT
+    fi
 fi
 
 if [ "$EXIT" -eq 1 ] || grep -q "fatal error" $LOGFILE
@@ -24,3 +29,4 @@ then
     rm -f $LOGFILE
     exit 1
 fi
+

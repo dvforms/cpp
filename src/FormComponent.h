@@ -2,8 +2,8 @@
 #ifndef DVFORMSCPP_FORMCOMPONENT_H
 #define DVFORMSCPP_FORMCOMPONENT_H
 #include <memory>
-#include <map>
 #include "json.h"
+#include <type_traits>  // for enable_if, is_base_of
 
 namespace dv {
   namespace forms {

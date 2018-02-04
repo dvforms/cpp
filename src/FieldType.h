@@ -3,6 +3,7 @@
 #define DVFORMSCPP_FIELDTYPE_H
 
 #include "json.h"
+#include <iosfwd>  // for ostream
 
 namespace dv {
   namespace forms {

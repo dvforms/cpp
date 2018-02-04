@@ -2,9 +2,11 @@
 #ifndef DVFORMSCPP_JSONPATH_H
 #define DVFORMSCPP_JSONPATH_H
 
-#include <boost/variant.hpp>
-#include <string>
 #include "json.h"
+#include <iosfwd>                     // for ostream
+#include <stddef.h>                   // for size_t
+#include <boost/variant/variant.hpp>  // for variant
+#include <string>
 #include <vector>
 
 namespace dv {

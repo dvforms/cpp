@@ -1,6 +1,7 @@
 #include "FormInputSimple.h"
-#include "variantjson.h"
-#include "FormExpression.h"
+#include "json.h"
+#include "FormExpression.h" // IWYU pragma: keep
+#include "FormComponent.h"  // for to_json
 
 using namespace dv::forms;
 using namespace dv::json;

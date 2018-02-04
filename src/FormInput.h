@@ -4,6 +4,7 @@
 
 #include "FormComponent.h"
 #include "FieldType.h"
+#include <string>           // for string
 
 namespace dv {
   namespace forms {

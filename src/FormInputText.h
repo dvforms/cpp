@@ -3,6 +3,7 @@
 #define DVFORMSCPP_FORMINPUTTEXT_H
 
 #include "FormInputSimple.h"
+#include "FieldType.h"        // for FieldType
 
 namespace dv {
   namespace forms {

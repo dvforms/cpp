@@ -1,5 +1,7 @@
-#include <list>
 #include "FormSection.h"
+#include <map>      // for map
+#include <utility>  // for pair
+#include "json.h"   // for JSON
 
 using namespace dv::forms;
 

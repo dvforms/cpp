@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_map>
 #include "json.h"
+#include <algorithm>      // for forward
+#include <memory>         // for shared_ptr, enable_shared_from_this, make_shared
 
 namespace dv {
   namespace forms {
