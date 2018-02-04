@@ -58,14 +58,22 @@ JSON &JSON::operator[]( const JSON::keyType &key ) {
   if ( value.type() != typeid( objectType ) ) {
     value = objectType();
   }
-  return boost::get<objectType>( value )[key];
+  auto &rt = boost::get<objectType>( value )[key];
+  if ( !rt ) {
+    rt = std::make_shared<JSON>();
+  }
+  return *rt;
 }
 
 JSON &JSON::operator[]( JSON::indexType index ) {
   if ( value.type() != typeid( arrayType ) ) {
     value = arrayType();
   }
-  return boost::get<arrayType>( value )[index];
+  auto &rt = boost::get<arrayType>( value )[index];
+  if ( !rt ) {
+    rt = std::make_shared<JSON>();
+  }
+  return *rt;
 }
 
 bool JSON::compare( const JSON &other, JSONDiffListener &listener ) const {
@@ -114,7 +122,7 @@ bool JSON::compare( const JSON &other, JSONDiffListener &listener, const JSONPat
         auto it1 = keys1.begin(), it2 = keys2.begin();
         while ( it1 != keys1.end() && it2 != keys2.end() ) {
           if ( *it1 == *it2 ) {
-            if ( !obj1.find( *it1 )->second.compare( obj2.find( *it2 )->second, listener, path / *it1 ) ) {
+            if ( !obj1.find( *it1 )->second->compare( *obj2.find( *it2 )->second, listener, path / *it1 ) ) {
               rt = false;
               if ( !listener.isInterested() ) {
                 it1 = keys1.end();
@@ -258,7 +266,7 @@ void JSON::dump( std::ostream &os, unsigned int indent, unsigned int level ) con
         writeEscaped( os, it.first );
         os << "\":";
         if ( indent > 0 ) { os << " "; }
-        it.second.dump( os, indent, level );
+        it.second->dump( os, indent, level );
         first = false;
       }
       os << doIndent( indent, level - 1 ) << "}";
@@ -285,7 +293,7 @@ void JSON::dump( std::ostream &os, unsigned int indent, unsigned int level ) con
       for ( const auto &it : list ) {
         if ( !first ) { os << ","; }
         first = false;
-        it.dump( os, indent, level );
+        it->dump( os, indent, level );
       }
       os << "]";
       break;

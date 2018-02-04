@@ -64,15 +64,17 @@ namespace dv {
 
     std::ostream &operator<<( std::ostream &os, const JSONDiffListenerImpl &listener );
 
-    class JSON {
+    typedef std::shared_ptr<JSON> JSONPtr;
+
+    class JSON : public std::enable_shared_from_this<JSON> {
     public:
       typedef std::nullptr_t nullType;
       typedef int64_t intType;
       typedef bool boolType;
       typedef double doubleType;
       typedef std::string stringType;
-      typedef std::unordered_map<stringType, JSON> objectType;
-      typedef std::vector<JSON> arrayType;
+      typedef std::unordered_map<stringType, JSONPtr> objectType;
+      typedef std::vector<JSONPtr> arrayType;
       typedef stringType keyType;
       typedef boost::variant<nullType, intType, boolType, doubleType, stringType, objectType, arrayType> valueType;
       typedef size_t indexType;
