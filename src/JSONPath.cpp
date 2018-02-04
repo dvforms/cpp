@@ -1,4 +1,5 @@
 #include "JSONPath.h"
+#include <sstream>
 
 dv::json::JSONPath dv::json::JSONPath::operator/( const dv::json::JSON::stringType &name ) const {
   dv::json::JSONPath rt( *this );

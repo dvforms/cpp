@@ -5,6 +5,7 @@
 #include <boost/variant.hpp>
 #include <unordered_map>
 #include <vector>
+#include <map>
 
 namespace dv {
   namespace json {

@@ -1,5 +1,7 @@
 #include "json.h"
 #include "JSONPath.h"
+#include <sstream>
+#include <set>
 
 using namespace dv::json;
 
