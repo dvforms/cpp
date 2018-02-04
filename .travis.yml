@@ -17,4 +17,4 @@ matrix:
               - cmake-data
               - cmake
               - ninja-build
-              - boost
+              - libboost-all-dev
