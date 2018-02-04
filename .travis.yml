@@ -8,9 +8,18 @@ matrix:
       before_install:
         - brew install ninja
     - os: linux
-      compiler:
-        - clang
-        - gcc
+      compiler: clang
+      addons:
+          apt:
+            sources:
+              - george-edison55-precise-backports
+            packages:
+              - cmake-data
+              - cmake
+              - ninja-build
+              - libboost-all-dev
+    - os: linux
+      compiler: gcc
       addons:
           apt:
             sources:
