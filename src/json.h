@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include <map>
+#include <memory>
 
 namespace dv {
   namespace json {
