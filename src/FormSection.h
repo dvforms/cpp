@@ -15,7 +15,7 @@ namespace dv {
     typedef std::shared_ptr<FormSection> FormSectionPtr;
     class FormSection : public FormComponent {
     public:
-      explicit FormSection( int32_t order );
+      explicit FormSection( int32_t nOrder );
       ~FormSection() override;
       json generateSchema() const override;
 

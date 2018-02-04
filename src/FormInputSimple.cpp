@@ -1,13 +1,12 @@
 #include "FormInputSimple.h"
-#include "json.h"
-#include "FormExpression.h" // IWYU pragma: keep
 #include "FormComponent.h"  // for to_json
+#include "FormExpression.h" // IWYU pragma: keep
+#include "json.h"
 
 using namespace dv::forms;
 using namespace dv::json;
 
-FormInputSimple::FormInputSimple() : FormInput() {
-}
+FormInputSimple::FormInputSimple() = default;
 
 json FormInputSimple::generateSchema() const {
   auto rt = FormInput::generateSchema();

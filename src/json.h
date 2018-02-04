@@ -193,7 +193,7 @@ namespace dv {
     template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
     inline void to_json( JSON &json, T v ) {
       json = static_cast<int64_t>(v);
-    };
+    }
 
     std::ostream &operator<<( std::ostream &os, const JSON &json );
 

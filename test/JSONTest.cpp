@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
+#include <gmock/gmock.h> // IWYU pragma: keep
 #include <json.h>
-#include <JSONPath.h>
+#include <JSONPath.h> // IWYU pragma: keep
 
 using namespace testing;
 using namespace dv::json;

@@ -1,11 +1,11 @@
 #include "FormSection.h"
+#include "json.h"   // for JSON
 #include <map>      // for map
 #include <utility>  // for pair
-#include "json.h"   // for JSON
 
 using namespace dv::forms;
 
-FormSection::FormSection( int32_t nOrder ) : FormComponent(), order( nOrder ) {
+FormSection::FormSection( int32_t nOrder ) : order( nOrder ) {
 }
 
 FormSection::~FormSection() = default;

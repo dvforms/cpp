@@ -10,6 +10,5 @@ done
 
 if [ "x$FILES" != "x" ]
 then
-    echo $FILES '->' $LOGFILE
     cat $FILES > $LOGFILE
 fi

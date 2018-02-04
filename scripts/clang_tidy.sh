@@ -19,6 +19,10 @@ then
     cat $LOGFILE.tmp
     rm $LOGFILE.tmp
 else
+    if [ $(sed -e '/warnings generated/d;/to display errors from all non-system headers/d;/Suppressed [0-9][0-9]* warnings/d' $LOGFILE.tmp | wc -l) -eq 0 ]
+    then
+        > $LOGFILE.tmp
+    fi
     mv $LOGFILE{.tmp,}
 fi
 exit $EXIT

@@ -2,7 +2,6 @@
 
 using namespace dv::forms;
 
-FormExpression::FormExpression() : FormComponent() {
-}
+FormExpression::FormExpression() = default;
 
 FormExpression::~FormExpression() = default;

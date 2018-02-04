@@ -1,8 +1,8 @@
 #include "FormGenerator.h"
+#include "FormComponent.h"  // for json, to_json
 #include "FormSection.h"
 #include <sstream>
 #include <utility>          // for pair
-#include "FormComponent.h"  // for json, to_json
 
 using namespace dv::forms;
 using namespace dv::json;

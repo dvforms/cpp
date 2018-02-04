@@ -19,23 +19,23 @@ namespace dv {
       virtual json generateSchema() const = 0;
       FormGeneratorPtr getForm() const;
     protected:
-      void setForm( const FormGeneratorPtr &form );
+      void setForm( const FormGeneratorPtr &nForm );
     private:
       std::weak_ptr<FormGenerator> form;
       friend class FormGenerator;
     };
 
     template<class T, typename std::enable_if<std::is_base_of<FormComponent, T>::value, int>::type = 0>
-    inline void to_json( json &json, const T &value ) {
-      json = value.generateSchema();
+    inline void to_json( json &j, const T &value ) {
+      j = value.generateSchema();
     }
 
     template<class T, typename std::enable_if<std::is_base_of<FormComponent, T>::value, int>::type = 0>
-    inline void to_json( json &json, const std::shared_ptr<T> &value ) {
+    inline void to_json( json &j, const std::shared_ptr<T> &value ) {
       if ( value ) {
-        to_json( json, *value );
+        to_json( j, *value );
       } else {
-        json = nullptr;
+        j = nullptr;
       }
     }
   }

@@ -19,3 +19,5 @@ if ( VALGRIND_PATH )
                  "VALGRIND=${VALGRIND_PATH}"
                  )
 endif ()
+iwyu_target ( testforms )
+clang_tidy_target ( testforms )

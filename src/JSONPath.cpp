@@ -1,7 +1,6 @@
 #include "JSONPath.h"
-#include <sstream>
-#include <boost/type_index.hpp>   // for type_info
 #include <boost/variant/get.hpp>  // for get
+#include <sstream>
 
 dv::json::JSONPath dv::json::JSONPath::operator/( const dv::json::JSON::stringType &name ) const {
   dv::json::JSONPath rt( *this );

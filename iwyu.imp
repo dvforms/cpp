@@ -5,6 +5,8 @@
     { "include": [ "<boost/variant/static_visitor.hpp>", "private", "<boost/variant.hpp>", "public" ] },
     { "include": [ "<boost/variant/variant_fwd.hpp>", "private", "<boost/variant.hpp>", "public" ] },
     { "include": [ "<bits/stdint-intn.h>", "private", "<cstdint>", "public" ] },
+    { "include": [ "<gtest/gtest-message.h>", "private", "<gtest/gtest.h>", "public" ] },
+    { "include": [ "<gtest/gtest-test-part.h>", "private", "<gtest/gtest.h>", "public" ] },
     { "symbol": [ "boost::variant<>", "public", "<boost/variant.hpp>", "public" ] },
     { "symbol": [ "int64_t", "public", "<cstdint>", "public" ] }
 ]
