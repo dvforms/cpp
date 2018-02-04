@@ -1,18 +1,37 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <DVFormGenerator.h>
+#include <FormGenerator.h>
+#include <FormSection.h>
 #include <FormInputText.h>
+#include "JSONPath.h"
 
 using namespace testing;
 using namespace dv::forms;
+using namespace dv::json;
 
 class DVFormGeneratorTest : public ::testing::Test {
   void SetUp() override {
-    RecordProperty( "COVERS", "DVFormGenerator.cpp:DVFormGenerator.h" );
+    RecordProperty( "COVERS", "FormGenerator.cpp:FormGenerator.h" );
   }
 };
 
 TEST_F( DVFormGeneratorTest, Test ) {
-  auto form = std::make_shared<DVFormGenerator>();
-  form->addComponent( std::make_shared<FormInputText>() );
+  auto form = std::make_shared<FormGenerator>();
+  auto section = form->addSection( "Main" );
+  form->addSection( "ABC" );
+  section->add<FormInputText>( "test" );
+  JSON expected;
+  expected["sections"]["ABC"]["order"] = 2;
+  expected["sections"]["ABC"]["fields"] = nullptr;
+  expected["sections"]["Main"]["order"] = 1;
+  expected["sections"]["Main"]["fields"]["test"]["order"] = 1;
+  expected["sections"]["Main"]["fields"]["test"]["required"] = false;
+  expected["sections"]["Main"]["fields"]["test"]["type"] = "text";
+  expected["expressions"] = nullptr;
+  expected["properties"] = nullptr;
+  auto schema = form->generateSchema();
+
+  JSONDiffListenerImpl listener;
+  expected.compare( schema, listener );
+  EXPECT_EQ( expected, schema ) << listener;
 }

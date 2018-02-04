@@ -2,14 +2,15 @@
 #ifndef DVFORMSCPP_FORMINPUTTEXT_H
 #define DVFORMSCPP_FORMINPUTTEXT_H
 
-#include "FormInput.h"
+#include "FormInputSimple.h"
 
 namespace dv {
   namespace forms {
-    class FormInputText : public FormInput {
+    class FormInputText : public FormInputSimple {
     public:
       FormInputText();
-      virtual ~FormInputText();
+      ~FormInputText() override;
+      FieldType getType() const override;
     };
   }
 }
