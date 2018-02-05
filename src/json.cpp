@@ -74,9 +74,13 @@ JSON &JSON::operator[]( JSON::indexType index ) {
   if ( value.type() != typeid( arrayType ) ) {
     value = arrayType();
   }
-  auto &rt = boost::get<arrayType>( value )[index];
+  auto &vector = boost::get<arrayType>( value );
+  while ( vector.size() <= index ) {
+    vector.emplace_back( std::make_shared<JSON>() );
+  }
+  auto &rt = vector.at( index );
   if ( !rt ) {
-    rt = std::make_shared<JSON>();
+    vector[index] = rt = std::make_shared<JSON>();
   }
   return *rt;
 }
@@ -270,7 +274,13 @@ JSON &JSON::operator=( Type v ) {
 }
 
 void JSON::writeEscaped( std::ostream &os, const JSON::stringType &v ) const {
-  os << v; /// @todo finish
+  for ( auto item : v ) {
+    if ( item == '"' ) {
+      os << "\\\"";
+    } else {
+      os << item;
+    }
+  }
 }
 
 void JSON::dump( std::ostream &os, unsigned int indent ) const {
