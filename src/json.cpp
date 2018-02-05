@@ -232,6 +232,43 @@ JSON &JSON::operator=( JSON::doubleType v ) {
   return *this;
 }
 
+JSON &JSON::operator=( JSON::arrayType v ) {
+  value = v;
+  return *this;
+}
+
+JSON &JSON::operator=( JSON::objectType v ) {
+  value = v;
+  return *this;
+}
+
+JSON &JSON::operator=( Type v ) {
+  switch ( v ) {
+    case Type::ARRAY:
+      *this = arrayType();
+      break;
+    case Type::DOUBLE:
+      *this = 0.0;
+      break;
+    case Type::INT:
+      *this = 0;
+      break;
+    case Type::NULLVALUE:
+      *this = nullptr;
+      break;
+    case Type::STRING:
+      *this = stringType();
+      break;
+    case Type::OBJECT:
+      *this = objectType();
+      break;
+    case Type::BOOL:
+      *this = false;
+      break;
+  }
+  return *this;
+}
+
 void JSON::writeEscaped( std::ostream &os, const JSON::stringType &v ) const {
   os << v; /// @todo finish
 }
@@ -263,18 +300,22 @@ void JSON::dump( std::ostream &os, unsigned int indent, unsigned int level ) con
       break;
     case Type::OBJECT: {
       const auto &obj = boost::get<objectType>( value );
-      os << "{" << doIndent( indent, level );
-      bool first = true;
-      for ( const auto &it : obj ) {
-        if ( !first ) { os << "," << doIndent( indent, level ); }
-        os << "\"";
-        writeEscaped( os, it.first );
-        os << "\":";
-        if ( indent > 0 ) { os << " "; }
-        it.second->dump( os, indent, level );
-        first = false;
+      if ( obj.empty() ) {
+        os << "{}";
+      } else {
+        os << "{" << doIndent( indent, level );
+        bool first = true;
+        for ( const auto &it : obj ) {
+          if ( !first ) { os << "," << doIndent( indent, level ); }
+          os << "\"";
+          writeEscaped( os, it.first );
+          os << "\":";
+          if ( indent > 0 ) { os << " "; }
+          it.second->dump( os, indent, level );
+          first = false;
+        }
+        os << doIndent( indent, level - 1 ) << "}";
       }
-      os << doIndent( indent, level - 1 ) << "}";
       break;
     }
     case Type::STRING:
@@ -292,18 +333,84 @@ void JSON::dump( std::ostream &os, unsigned int indent, unsigned int level ) con
       os << boost::get<doubleType>( value );
       break;
     case Type::ARRAY: {
-      os << "[";
       const auto &list = boost::get<arrayType>( value );
-      bool first = true;
-      for ( const auto &it : list ) {
-        if ( !first ) { os << ","; }
-        first = false;
-        it->dump( os, indent, level );
+      if ( list.empty() ) {
+        os << "[]";
+      } else {
+        os << "[";
+        bool first = true;
+        for ( const auto &it : list ) {
+          if ( !first ) { os << "," << doIndent( indent, level ); }
+          first = false;
+          it->dump( os, indent, level );
+        }
+        os << doIndent( indent, level - 1 ) << "]";
       }
-      os << "]";
       break;
     }
   }
+}
+
+bool JSON::operator==( const char *string ) const {
+  bool rt = false;
+  if ( type() == Type::STRING ) {
+    rt = boost::get<stringType>( value ) == string;
+  }
+  return rt;
+}
+
+bool JSON::operator==( const stringType &string ) const {
+  bool rt = false;
+  if ( type() == Type::STRING ) {
+    rt = boost::get<stringType>( value ) == string;
+  }
+  return rt;
+}
+
+bool JSON::operator==( std::nullptr_t ) const {
+  return type() == Type::NULLVALUE;
+}
+
+bool JSON::operator==( bool v ) const {
+  bool rt = false;
+
+  if ( type() == Type::BOOL ) {
+    rt = v == boost::get<boolType>( value );
+  }
+
+  return rt;
+}
+
+bool JSON::operator==( Type t ) const {
+  return type() == t;
+}
+
+bool JSON::operator!=( Type t ) const {
+  return type() != t;
+}
+
+template<> JSON::operator JSON::intType() const {
+  if ( value.type() == typeid( JSON::doubleType ) ) {
+    return static_cast<JSON::intType>(static_cast<JSON::doubleType>(*this));
+  } else {
+    return boost::get<JSON::intType>( value );
+  }
+}
+
+template<> JSON::operator const JSON::stringType &() const {
+  return boost::get<JSON::stringType>( value );
+}
+
+template<> JSON::operator JSON::doubleType() const {
+  if ( value.type() == typeid( JSON::intType ) ) {
+    return static_cast<JSON::intType>(*this);
+  } else {
+    return boost::get<JSON::doubleType>( value );
+  }
+}
+
+template<> JSON::operator JSON::boolType() const {
+  return boost::get<JSON::boolType>( value );
 }
 
 bool JSONDiffListenerImpl::isInterested() {
