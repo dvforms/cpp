@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 #include <memory>
-#include <cstddef>           // for size_t
+#include <cstddef>            // for size_t
 #include <cstdint>            // for int64_t
 #include <iosfwd>             // for ostream, nullptr_t
 #include <string>             // for string
@@ -184,6 +184,14 @@ namespace dv {
 
     template<typename T>
     inline void to_json( JSON &json, const std::map<JSON::stringType, T> &v ) {
+      json = nullptr;
+      for ( const auto &it : v ) {
+        json[it.first] = it.second;
+      }
+    }
+
+    template<typename T>
+    inline void to_json( JSON &json, const std::unordered_map<JSON::stringType, T> &v ) {
       json = nullptr;
       for ( const auto &it : v ) {
         json[it.first] = it.second;

@@ -7,7 +7,6 @@
 #include <memory>
 #include <unordered_map>
 #include <string>              // for string
-#include <cstdint>          // for int32_t
 
 namespace dv {
   namespace forms {
@@ -15,14 +14,13 @@ namespace dv {
     typedef std::shared_ptr<FormSection> FormSectionPtr;
     class FormSection : public FormComponent {
     public:
-      explicit FormSection( int32_t nOrder );
+      explicit FormSection();
       ~FormSection() override;
       json generateSchema() const override;
 
       template<class T> std::shared_ptr<T> add( const std::string &name );
 
     protected:
-      int32_t order;
       std::unordered_map<std::string, FormComponentPtr> fields;
       virtual void addComponent( const std::string &name, const FormComponentPtr & );
     };

@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h> // IWYU pragma: keep
+#include <gmock/gmock.h>    // IWYU pragma: keep
 #include <FormGenerator.h>
 #include <FormSection.h>
-#include <FormInputText.h> // IWYU pragma: keep
-#include "JSONPath.h" // IWYU pragma: keep
+#include <FormInputText.h>  // IWYU pragma: keep
+#include "JSONPath.h"       // IWYU pragma: keep
 #include <memory>           // for __shared_ptr_access, shared_ptr, make_shared
 #include "json.h"           // for JSON, JSONDiffListenerImpl, operator<<
 

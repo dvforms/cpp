@@ -28,14 +28,16 @@ json FormGenerator::generateSchema() const {
 
 json FormGenerator::buildSections() const {
   json rt;
+  auto i = sections.size();
   for ( const auto &item : sections ) {
-    rt[item.first] = item.second;
+    auto &j = rt[item.first] = item.second;
+    j["order"] = i--;
   }
   return rt;
 }
 
 FormSectionPtr &FormGenerator::addSection( const std::string &name ) {
-  auto section = create<FormSection>( sections.size() + 1 );
+  auto section = create<FormSection>();
   auto item = sections.emplace( name, section );
   return item.first->second;
 }

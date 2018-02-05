@@ -1,29 +1,25 @@
 #include "FormSection.h"
 #include "json.h"   // for JSON
-#include <map>      // for map
 #include <utility>  // for pair
 
 using namespace dv::forms;
 
-FormSection::FormSection( int32_t nOrder ) : order( nOrder ) {
-}
+FormSection::FormSection() = default;
 
 FormSection::~FormSection() = default;
 
 json FormSection::generateSchema() const {
   json rt;
 
-  std::map<std::string, json> fieldsJSON;
+  std::unordered_map<std::string, json> fieldsJSON;
 
-  int i = 1;
   for ( const auto &item: fields ) {
     auto j = item.second->generateSchema();
-    j["order"] = i;
+    j["order"] = fields.size() - fieldsJSON.size();
     fieldsJSON.emplace( item.first, j );
   }
 
   rt["fields"] = fieldsJSON;
-  rt["order"] = order;
   return rt;
 }
 
