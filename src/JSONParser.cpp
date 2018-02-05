@@ -1,8 +1,11 @@
 #include "JSONParser.h"
 #include "json.h"
-#include <sstream>
-#include <list>
 #include <boost/algorithm/string.hpp>
+#include <cctype>
+#include <cstdint>
+#include <list>
+#include <memory>
+#include <sstream>
 
 using namespace dv::json;
 

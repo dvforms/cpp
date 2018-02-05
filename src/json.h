@@ -3,6 +3,7 @@
 #define DVFORMSCPP_JSON_H
 
 #include <boost/variant.hpp>
+#include <boost/variant/get.hpp>
 #include <unordered_map>
 #include <vector>
 #include <map>
@@ -86,8 +87,8 @@ namespace dv {
       JSON &operator=( const char *v );
       JSON &operator=( intType );
       JSON &operator=( doubleType );
-      JSON &operator=( arrayType );
-      JSON &operator=( objectType );
+      JSON &operator=( const arrayType & );
+      JSON &operator=( const objectType & );
       JSON &operator=( Type );
       JSON &operator=( const JSON &other ) = default;
       JSON &operator=( JSON &&other ) = default;

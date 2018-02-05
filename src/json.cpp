@@ -232,12 +232,12 @@ JSON &JSON::operator=( JSON::doubleType v ) {
   return *this;
 }
 
-JSON &JSON::operator=( JSON::arrayType v ) {
+JSON &JSON::operator=( const JSON::arrayType &v ) {
   value = v;
   return *this;
 }
 
-JSON &JSON::operator=( JSON::objectType v ) {
+JSON &JSON::operator=( const JSON::objectType &v ) {
   value = v;
   return *this;
 }
