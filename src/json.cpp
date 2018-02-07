@@ -381,6 +381,10 @@ bool JSON::operator==( std::nullptr_t ) const {
   return type() == Type::NULLVALUE;
 }
 
+bool JSON::operator!=( std::nullptr_t ) const {
+  return type() != Type::NULLVALUE;
+}
+
 bool JSON::operator==( bool v ) const {
   bool rt = false;
 
@@ -399,7 +403,7 @@ bool JSON::operator!=( Type t ) const {
   return type() != t;
 }
 
-template<> JSON::operator JSON::intType() const {
+/*template<> JSON::operator JSON::intType() const {
   if ( value.type() == typeid( JSON::doubleType ) ) {
     return static_cast<JSON::intType>(static_cast<JSON::doubleType>(*this));
   } else {
@@ -421,7 +425,7 @@ template<> JSON::operator JSON::doubleType() const {
 
 template<> JSON::operator JSON::boolType() const {
   return boost::get<JSON::boolType>( value );
-}
+}*/
 
 bool JSONDiffListenerImpl::isInterested() {
   return true;

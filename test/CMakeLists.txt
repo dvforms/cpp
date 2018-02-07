@@ -1,5 +1,13 @@
-add_executable ( testforms testmain.cpp DVFormGeneratorTest.cpp JSONPathTest.cpp JSONTest.cpp JSONParserTest.cpp )
+add_executable ( testforms
+                 testmain.cpp
+                 FormGeneratorTest.cpp
+                 JSONPathTest.cpp
+                 JSONTest.cpp
+                 JSONParserTest.cpp
+                 example.json
+                 )
 target_link_libraries ( testforms GTest GMock dvforms )
+target_compile_definitions ( testforms PRIVATE -DSOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}" )
 
 add_test ( NAME testforms COMMAND ${CMAKE_SOURCE_DIR}/scripts/testdriver.sh $<TARGET_FILE:testforms> WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )
 set_property ( TEST testforms PROPERTY ENVIRONMENT "NAME=testforms" )

@@ -73,6 +73,8 @@ checkandaddflag ( -Wno-unused-command-line-argument CMAKE_CXX_FLAGS )
 checkandaddflag ( -Wno-padded CMAKE_CXX_FLAGS )
 checkandaddflag ( -Wno-c++98-compat-pedantic CMAKE_CXX_FLAGS )
 checkandaddflag ( -Wno-exit-time-destructors CMAKE_CXX_FLAGS )
+checkandaddflag ( -ftemplate-backtrace-limit=0 CMAKE_CXX_FLAGS )
+checkandaddflag ( -Wfatal-errors CMAKE_CXX_FLAGS )
 
 add_subdirectory ( src )
 if ( BUILD_TESTING )

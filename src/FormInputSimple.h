@@ -30,6 +30,8 @@ namespace dv {
       validType valid;
       visibleType visible;
     };
+
+    void from_json( const json &j, FormInputSimple &input );
   }
 }
 
