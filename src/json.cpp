@@ -8,18 +8,6 @@
 
 using namespace dv::json;
 
-static const std::map<const std::type_info *, Type> typeMap( []() {
-    std::map<const std::type_info *, Type> rt;
-    rt.emplace( &typeid( JSON::intType ), Type::INT );
-    rt.emplace( &typeid( JSON::boolType ), Type::BOOL );
-    rt.emplace( &typeid( JSON::doubleType ), Type::DOUBLE );
-    rt.emplace( &typeid( JSON::stringType ), Type::STRING );
-    rt.emplace( &typeid( JSON::objectType ), Type::OBJECT );
-    rt.emplace( &typeid( JSON::arrayType ), Type::ARRAY );
-    rt.emplace( &typeid( JSON::nullType ), Type::NULLVALUE );
-    return rt;
-}() );
-
 std::ostream &dv::json::operator<<( std::ostream &os, const JSON &json ) {
   json.dump( os, 2 );
   return os;
@@ -197,13 +185,28 @@ bool JSON::operator==( const JSON &other ) const {
   return compare( other, listener );
 }
 
+class JSONTypeVisitor : public boost::static_visitor<Type> {
+ public:
+#define TYPE( t, T ) Type operator()( const t ) { return Type::T; }
+
+  TYPE( JSON::nullType, NULLVALUE )
+
+  TYPE( JSON::boolType, BOOL )
+
+  TYPE( JSON::intType, INT )
+
+  TYPE( JSON::doubleType, DOUBLE )
+
+  TYPE( JSON::stringType &, STRING )
+
+  TYPE( JSON::objectType &, OBJECT )
+
+  TYPE( JSON::arrayType &, ARRAY )
+};
+
 Type JSON::type() const {
-  auto it = typeMap.find( &value.type() );
-  Type rt = Type::NULLVALUE;
-  if ( it != typeMap.end() ) {
-    rt = it->second;
-  }
-  return rt;
+  JSONTypeVisitor visitor;
+  return value.apply_visitor( visitor );
 }
 
 JSON &JSON::operator=( std::nullptr_t ) {
@@ -402,30 +405,6 @@ bool JSON::operator==( Type t ) const {
 bool JSON::operator!=( Type t ) const {
   return type() != t;
 }
-
-/*template<> JSON::operator JSON::intType() const {
-  if ( value.type() == typeid( JSON::doubleType ) ) {
-    return static_cast<JSON::intType>(static_cast<JSON::doubleType>(*this));
-  } else {
-    return boost::get<JSON::intType>( value );
-  }
-}
-
-template<> JSON::operator const JSON::stringType &() const {
-  return boost::get<JSON::stringType>( value );
-}
-
-template<> JSON::operator JSON::doubleType() const {
-  if ( value.type() == typeid( JSON::intType ) ) {
-    return static_cast<JSON::intType>(*this);
-  } else {
-    return boost::get<JSON::doubleType>( value );
-  }
-}
-
-template<> JSON::operator JSON::boolType() const {
-  return boost::get<JSON::boolType>( value );
-}*/
 
 bool JSONDiffListenerImpl::isInterested() {
   return true;
