@@ -1,49 +1,14 @@
-#include "json.h"
-#include "JSONPath.h"
-#include <boost/variant/get.hpp>  // for get
-#include <set>
+#include "JSONValue.h"
+#include <string>              // for string
 #include <sstream>
-#include <typeinfo>               // for type_info
-#include <utility>                // for pair
+#include <set>
+#include "JSONDiffListener.h"  // for JSONDiffListener, JSONDiffNullListener
+#include "JSONPath.h"          // for JSONPath
 
 using namespace dv::json;
 
 std::ostream &dv::json::operator<<( std::ostream &os, const JSON &json ) {
   json.dump( os, 2 );
-  return os;
-}
-
-std::ostream &dv::json::operator<<( std::ostream &os, Type type ) {
-  switch ( type ) {
-    case Type::INT:
-      os << "int";
-      break;
-    case Type::BOOL:
-      os << "bool";
-      break;
-    case Type::DOUBLE:
-      os << "double";
-      break;
-    case Type::STRING:
-      os << "string";
-      break;
-    case Type::OBJECT:
-      os << "object";
-      break;
-    case Type::ARRAY:
-      os << "array";
-      break;
-    case Type::NULLVALUE:
-      os << "null";
-      break;
-  }
-  return os;
-}
-
-std::ostream &dv::json::operator<<( std::ostream &os, const JSONDiffListenerImpl &listener ) {
-  for ( const auto &item : listener.differences ) {
-    os << item.first << ": " << item.second << std::endl;
-  }
   return os;
 }
 
@@ -406,20 +371,29 @@ bool JSON::operator!=( Type t ) const {
   return type() != t;
 }
 
-bool JSONDiffListenerImpl::isInterested() {
-  return true;
-}
-
-void JSONDiffListenerImpl::recordDifference( const JSONPath &path, const std::string &diff ) {
-  differences[path] = diff;
-}
-
-void JSONDiffListenerImpl::clear() {
-  differences.clear();
-}
-
-std::string JSONDiffListenerImpl::toString() const {
-  std::ostringstream str;
-  str << *this;
-  return str.str();
+std::ostream &dv::json::operator<<( std::ostream &os, Type type ) {
+  switch ( type ) {
+    case Type::INT:
+      os << "int";
+      break;
+    case Type::BOOL:
+      os << "bool";
+      break;
+    case Type::DOUBLE:
+      os << "double";
+      break;
+    case Type::STRING:
+      os << "string";
+      break;
+    case Type::OBJECT:
+      os << "object";
+      break;
+    case Type::ARRAY:
+      os << "array";
+      break;
+    case Type::NULLVALUE:
+      os << "null";
+      break;
+  }
+  return os;
 }

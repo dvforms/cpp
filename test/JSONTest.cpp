@@ -1,7 +1,8 @@
+#include <iosfwd>         // for ostringstream
+#include "json.h"         // for JSON, JSONDiffListenerImpl, operator<<
 #include <gtest/gtest.h>
-#include <gmock/gmock.h> // IWYU pragma: keep
-#include <json.h>
-#include <JSONPath.h> // IWYU pragma: keep
+#include <gmock/gmock.h>  // IWYU pragma: keep
+#include <JSONPath.h>     // IWYU pragma: keep
 
 using namespace testing;
 using namespace dv::json;

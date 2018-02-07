@@ -7,10 +7,10 @@ add_library ( dvforms SHARED
               FieldType.h FieldType.cpp
               FormInputSimple.cpp FormInputSimple.h
               FormExpression.cpp FormExpression.h
-              json.h json.cpp
+              json.h
               JSONParser.cpp JSONParser.h
               JSONPath.cpp JSONPath.h
-              )
+              JSONValue.cpp JSONValue.h jsonfwd.h JSONSerialiser.h JSONDiffListener.cpp JSONDiffListener.h JSONConverters.h )
 target_link_libraries ( dvforms PUBLIC Boost::boost )
 install ( TARGETS dvforms EXPORT dvformscpp DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 target_include_directories ( dvforms PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

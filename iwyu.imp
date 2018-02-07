@@ -10,6 +10,8 @@
     { "include": [ "<gtest/gtest-test-part.h>", "private", "<gtest/gtest.h>", "public" ] },
     { "include": [ "<bits/exception.h>", "private", "<stdexcept>", "public" ] },
     { "include": [ "<boost/algorithm/string/predicate.hpp>", "private", "<boost/algorithm/string.hpp>", "public" ] },
+    { "include": [ "<ext/alloc_traits.h>", "private", "<unordered_map>", "public" ] },
+    { "include": [ "<ext/alloc_traits.h>", "private", "<unordered_set>", "public" ] },
     { "symbol": [ "boost::variant<>", "public", "<boost/variant.hpp>", "public" ] },
     { "symbol": [ "boost::get<>", "public", "<boost/variant/get.hpp>", "public" ] },
     { "symbol": [ "int64_t", "public", "<cstdint>", "public" ] }

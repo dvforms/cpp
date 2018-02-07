@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <json.h>
+#include <gmock/gmock.h>  // IWYU pragma: keep
+#include <cstdint>        // for int64_t
+#include <vector>         // for vector
+#include "json.h"         // for JSON, Type, to_json, Type::INT, Type::BOOL, Type::DOUBLE, Type::OBJECT, Type::ARRAY, Type::NULLVALUE, Type::STRING
 #include <JSONParser.h>
 
 using namespace testing;

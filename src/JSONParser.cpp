@@ -1,11 +1,11 @@
 #include "JSONParser.h"
-#include "json.h"
-#include <boost/algorithm/string.hpp>
-#include <cctype>
-#include <cstdint>
-#include <list>
-#include <memory>
-#include <sstream>
+#include <stddef.h>                    // for size_t
+#include <boost/algorithm/string.hpp>  // for iequals
+#include <cctype>                      // for isspace, isdigit
+#include <list>                        // for _List_iterator, list
+#include <memory>                      // for __shared_ptr_access, __shared_ptr_access<>::element_type, make_shared, shared_ptr
+#include <sstream>                     // for operator<<, basic_istream::get, basic_ostream, basic_istream::unget, basic_istream::readsome, basic_istream::peek
+#include "json.h"                      // for JSON, JSONPtr, JSONTypes::doubleType, Type, JSONTypes::intType, Type::ARRAY, Type::INT, Type::OBJECT
 
 using namespace dv::json;
 

@@ -8,6 +8,7 @@
 #include "JSONParser.h"
 #include <fstream>
 #include <memory>           // for __shared_ptr_access, shared_ptr, make_shared
+#include "FieldType.h"      // for json
 
 using namespace testing;
 using namespace dv::forms;

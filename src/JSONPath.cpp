@@ -1,4 +1,5 @@
 #include "JSONPath.h"
+#include <boost/variant.hpp>      // for type_info
 #include <boost/variant/get.hpp>  // for get
 #include <sstream>
 
