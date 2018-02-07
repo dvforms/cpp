@@ -1,7 +1,7 @@
 #include "JSONDiffListener.h"
+#include "JSONPath.h"  // for operator<<, JSONPath (ptr only)
 #include <sstream>     // for operator<<, basic_ostream, endl
 #include <utility>     // for pair
-#include "JSONPath.h"  // for operator<<, JSONPath (ptr only)
 
 using namespace dv::json;
 

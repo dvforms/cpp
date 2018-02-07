@@ -1,11 +1,11 @@
 #include "JSONParser.h"
-#include <stddef.h>                    // for size_t
+#include "json.h"                      // for JSON, JSONPtr, JSONTypes::doubleType, Type, JSONTypes::intType, Type::ARRAY, Type::INT, Type::OBJECT
 #include <boost/algorithm/string.hpp>  // for iequals
 #include <cctype>                      // for isspace, isdigit
+#include <cstddef>                    // for size_t
 #include <list>                        // for _List_iterator, list
 #include <memory>                      // for __shared_ptr_access, __shared_ptr_access<>::element_type, make_shared, shared_ptr
 #include <sstream>                     // for operator<<, basic_istream::get, basic_ostream, basic_istream::unget, basic_istream::readsome, basic_istream::peek
-#include "json.h"                      // for JSON, JSONPtr, JSONTypes::doubleType, Type, JSONTypes::intType, Type::ARRAY, Type::INT, Type::OBJECT
 
 using namespace dv::json;
 
@@ -238,12 +238,13 @@ void JSONParser::parseInto( JSON &value, std::istream &stream ) {
   if ( stackptr ) {
     throw JSONParseException( "Early exit from loop at '" + stackptr->buffer + "'" );
   } else if ( stream.good() ) {
-    char buffer[129] = { 0 };
-    if ( stream.readsome( buffer, sizeof( buffer ) - 1 ) > 0 ) {
-      char *ptr = buffer;
-      while ( *ptr != 0 && isspace( *ptr ) ) { ptr++; }
-      if ( *ptr != 0 ) {
-        throw JSONParseException( std::string( "Early exit from loop at '" ) + ptr + "'" );
+    std::vector<char> buffer( 129 );
+    if ( stream.readsome( buffer.data(), static_cast<std::streamsize>(buffer.size() - 1) ) > 0 ) {
+      auto ptr = buffer.begin();
+      while ( ptr != buffer.end() && isspace( *ptr ) ) { ptr++; }
+      if ( ptr != buffer.end() ) {
+        buffer.erase( buffer.begin(), ptr );
+        throw JSONParseException( std::string( "Early exit from loop at '" ) + buffer.data() + "'" );
       }
     }
   }

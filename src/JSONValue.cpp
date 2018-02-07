@@ -1,9 +1,9 @@
 #include "JSONValue.h"
-#include <string>              // for string
-#include <sstream>
-#include <set>
 #include "JSONDiffListener.h"  // for JSONDiffListener, JSONDiffNullListener
 #include "JSONPath.h"          // for JSONPath
+#include <set>
+#include <sstream>
+#include <string>              // for string
 
 using namespace dv::json;
 
