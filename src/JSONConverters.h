@@ -120,7 +120,7 @@ namespace dv {
     }
 
     template<typename T, typename std::enable_if<std::is_base_of<std::enable_shared_from_this<T>, T>::value, int>::type = 0>
-    std::shared_ptr<T> json_construct( T &, JSON * ) {
+    std::shared_ptr<T> json_construct( T *, JSON * ) {
       return std::make_shared<T>();
     }
   }

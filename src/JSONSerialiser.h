@@ -130,20 +130,20 @@ namespace dv {
       struct json_construct_function {
        private:
         template<typename JsonType, typename T>
-        auto call( JsonType *j, T &val, PriorityTag<1> ) const noexcept( noexcept( json_construct( val, j ) ) )
+        auto call( JsonType *j, T *val, PriorityTag<1> ) const noexcept( noexcept( json_construct( val, j ) ) )
         -> decltype( json_construct( val, j ) ) {
           return json_construct( val, j );
         }
 
         template<typename JsonType, typename T>
-        T call( const JsonType *, T &, PriorityTag<0> ) const noexcept {
+        T call( const JsonType *, T *, PriorityTag<0> ) const noexcept {
           return T();
         }
 
        public:
         template<typename JsonType, typename T>
         auto
-        operator()( JsonType *j, T &val ) const noexcept( noexcept( std::declval<json_construct_function>().call( j, val, PriorityTag<1> {} ) ) )
+        operator()( JsonType *j, T *val ) const noexcept( noexcept( std::declval<json_construct_function>().call( j, val, PriorityTag<1> {} ) ) )
         -> decltype( std::declval<json_construct_function>().call( j, val, PriorityTag<1> {} ) ) {
           return call( j, val, PriorityTag<1> {} );
         }
@@ -185,10 +185,10 @@ namespace dv {
 
     template<typename T = void>
       struct JSONConstructor {
-        typedef decltype( ::dv::json::json_construct( std::declval<JSON *>(), std::declval<T &>() ) ) constructType;
+        typedef decltype( ::dv::json::json_construct( std::declval<JSON *>(), std::declval<T *>() ) ) constructType;
 
         static constructType construct( T *val ) {
-          return ::dv::json::json_construct( static_cast<JSON *>(nullptr), *val );
+          return ::dv::json::json_construct( static_cast<JSON *>(nullptr), val );
         }
       };
   }

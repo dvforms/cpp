@@ -242,7 +242,7 @@ void JSONParser::parseInto( JSON &value, std::istream &stream ) {
     if ( stream.readsome( buffer.data(), static_cast<std::streamsize>(buffer.size() - 1) ) > 0 ) {
       auto ptr = buffer.begin();
       while ( ptr != buffer.end() && isspace( *ptr ) ) { ptr++; }
-      if ( ptr != buffer.end() ) {
+      if ( ptr != buffer.end() && *ptr != 0 ) {
         buffer.erase( buffer.begin(), ptr );
         throw JSONParseException( std::string( "Early exit from loop at '" ) + buffer.data() + "'" );
       }
