@@ -149,9 +149,9 @@ void JSONParser::parseInto( JSON &value, std::istream &stream ) {
               JSON::doubleType x = c - '0';
               auto y = stackptr->node->as<JSON::doubleType>();
               if ( stackptr->negative ) {
-                y -= x / stackptr->decimalPlace;
+                y -= x / static_cast<JSON::doubleType>(stackptr->decimalPlace);
               } else {
-                y += x / stackptr->decimalPlace;
+                y += x / static_cast<JSON::doubleType>(stackptr->decimalPlace);
               }
               stackptr->decimalPlace *= 10;
               *stackptr->node = y;

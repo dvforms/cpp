@@ -54,7 +54,3 @@ void dv::forms::from_json( const json &j, FormGenerator &form ) {
     }
   }
 }
-
-FormGeneratorPtr dv::forms::json_construct( FormGenerator & ) {
-  return std::make_shared<dv::forms::FormGenerator>();
-}

@@ -44,8 +44,6 @@ namespace dv {
     }
 
     void from_json( const json &j, FormGenerator &form );
-    FormGeneratorPtr json_construct( FormGenerator & );
-
   }
 }
 

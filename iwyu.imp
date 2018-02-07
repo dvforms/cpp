@@ -2,6 +2,7 @@
     { "include": [ "<bits/shared_ptr.h>", "private", "<memory>", "public" ] },
     { "include": [ "<boost/variant/detail/substitute.hpp>", "public", "<boost/preprocessor.hpp>", "public" ] },
     { "include": [ "<boost/variant/variant.hpp>", "public", "<boost/variant.hpp>", "public" ] },
+    { "include": [ "<boost/type_index.hpp>", "private", "<boost/variant.hpp>", "public" ] },
     { "include": [ "<boost/variant/static_visitor.hpp>", "private", "<boost/variant.hpp>", "public" ] },
     { "include": [ "<boost/variant/variant_fwd.hpp>", "private", "<boost/variant.hpp>", "public" ] },
     { "include": [ "<bits/stdint-intn.h>", "private", "<cstdint>", "public" ] },

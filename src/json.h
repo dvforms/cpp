@@ -65,6 +65,9 @@ namespace dv {
       template<typename T, typename U, typename... Ts>
         struct variant_has_type<T, boost::variant<U, Ts...> > : variant_has_type<T, boost::variant<Ts..., void> > {};
 
+      template<typename T, typename U, typename... Ts>
+        struct variant_has_type<const T, boost::variant<U, Ts...> > : variant_has_type<T, boost::variant<Ts..., void> > {};
+
       template<typename T, typename... Ts>
         struct variant_has_type<T, boost::variant<void, Ts...> > {
           static const bool value = false;
@@ -76,6 +79,12 @@ namespace dv {
         auto call( JsonType &j, std::shared_ptr<T> &&val, PriorityTag<2> ) const noexcept( noexcept( to_json( j, std::forward<std::shared_ptr<T>>( val ) ) ) )
         -> decltype( to_json( j, std::forward<std::shared_ptr<T>>( val ) ), void() ) {
           return to_json( j, std::forward<std::shared_ptr<T>>( val ) );
+        }
+
+        template<typename JsonType, typename T>
+        auto call( JsonType &j, std::weak_ptr<T> &&val, PriorityTag<2> ) const noexcept( noexcept( to_json( j, std::forward<std::weak_ptr<T>>( val ) ) ) )
+        -> decltype( to_json( j, std::forward<std::weak_ptr<T>>( val ) ), void() ) {
+          return to_json( j, std::forward<std::weak_ptr<T>>( val ) );
         }
 
         template<typename JsonType, typename T>
@@ -155,14 +164,13 @@ namespace dv {
       struct json_construct_function {
        private:
         template<typename JsonType, typename T>
-        auto call( JsonType */*j*/, T &val, PriorityTag<1> ) const noexcept( noexcept( json_construct( val ) ) )
-        -> decltype( json_construct( val ) ) {
-          return json_construct( val );
+        auto call( JsonType *j, T &val, PriorityTag<1> ) const noexcept( noexcept( json_construct( val, j ) ) )
+        -> decltype( json_construct( val, j ) ) {
+          return json_construct( val, j );
         }
 
         template<typename JsonType, typename T>
-        T call( const JsonType *, T &, PriorityTag<0>,
-                typename std::enable_if<!std::is_same<std::shared_ptr<dv::forms::FormGenerator>, T>::value, int>::type = 0 ) const noexcept {
+        T call( const JsonType *, T &, PriorityTag<0> ) const noexcept {
           return T();
         }
 
@@ -207,7 +215,10 @@ namespace dv {
         static bool compare( JsonType &j, ValueType &&val ) noexcept( noexcept( ::dv::json::json_compare( j, std::forward<ValueType>( val ) ) ) ) {
           return ::dv::json::json_compare( j, std::forward<ValueType>( val ) );
         }
+      };
 
+    template<typename T = void>
+      struct JSONConstructor {
         typedef decltype( ::dv::json::json_construct( std::declval<JSON *>(), std::declval<T &>() ) ) constructType;
 
         static constructType construct( T *val ) {
@@ -277,7 +288,7 @@ namespace dv {
       template<typename T> inline bool operator!=( const T &v ) const;
       template<typename T> inline bool operator==( const T &v ) const;
       template<typename T> inline explicit operator T() const;
-      template<typename T> inline typename JSONSerialiser<T>::constructType as() const;
+      template<typename T> inline typename JSONConstructor<T>::constructType as() const;
       Type type() const;
       inline JSONPtr sub( const keyType &key ) const;
 
@@ -349,12 +360,18 @@ namespace dv {
         }
 
         template<typename Actual, typename LRet=Ret>
-        LRet call( Actual &value, const PriorityTag<2> &, typename std::enable_if<std::is_convertible<Actual, LRet>::value, int>::type = 0 ) {
-          return static_cast<Ret>(value);
+        LRet call( Actual &value, const PriorityTag<2> &, typename std::enable_if<std::is_convertible<LRet, Actual>::value, int>::type = 0 ) {
+          return static_cast<LRet>(value);
         }
 
-        template<typename Actual, typename LRet=Ret> LRet call( Actual &/*value*/, const PriorityTag<0> & ) {
-          typename JSONSerialiser<Wanted>::constructType v = JSONSerialiser<Wanted>::construct( static_cast<Wanted *>(nullptr) );
+        template<typename Actual, typename LRet=Ret>
+        LRet call( Actual &/*value*/, const PriorityTag<1> &, typename std::enable_if<std::is_fundamental<LRet>::value, int>::type = 0 ) {
+          throw std::runtime_error( "Can't convert" );
+        }
+
+        template<typename Actual, typename LRet=Ret, typename W=Wanted, typename std::enable_if<!std::is_same<float, W>::value, int>::type = 0>
+        LRet call( Actual &/*value*/, const PriorityTag<0> & ) {
+          typename JSONConstructor<Wanted>::constructType v = JSONConstructor<Wanted>::construct( static_cast<Wanted *>(nullptr) );
           JSONSerialiser<Wanted>::from_json( *j, v );
           return v;
         }
@@ -369,8 +386,8 @@ namespace dv {
     }
 
     template<typename T>
-    typename JSONSerialiser<T>::constructType JSON::as() const {
-      detail::get_json_value_visitor<typename JSONSerialiser<T>::constructType, T> visitor( this );
+    typename JSONConstructor<T>::constructType JSON::as() const {
+      detail::get_json_value_visitor<typename JSONConstructor<T>::constructType, T> visitor( this );
       return value.apply_visitor( visitor );
     }
 
@@ -458,7 +475,9 @@ namespace dv {
 
         template<class T> void operator()( const std::shared_ptr<T> &value ) {
           if ( value ) {
-            *json = *value;
+            ( *this )( *value );
+          } else {
+            *json = nullptr;
           }
         }
 
@@ -466,8 +485,14 @@ namespace dv {
           ( *this )( value.lock() );
         }
 
-        template<class T> void operator()( T &value ) {
+        template<typename T, typename std::enable_if<variant_has_type<T, JSON::valueType>::value, int>::type = 0>
+        void operator()( T &value ) {
           *json = value;
+        }
+
+        template<class T, typename std::enable_if<!variant_has_type<T, JSON::valueType>::value, int>::type = 0>
+        void operator()( T &value ) {
+          JSONSerialiser<T>::to_json( *json, value );
         }
 
       protected:
@@ -523,9 +548,9 @@ namespace dv {
     }
 
     template<typename T, typename std::enable_if<std::is_base_of<std::enable_shared_from_this<T>, T>::value, int>::type = 0>
-    std::shared_ptr<T> json_construct( T & ) {
+    std::shared_ptr<T> json_construct( T &, JSON * ) {
       return std::make_shared<T>();
-    };
+    }
   }
 }
 

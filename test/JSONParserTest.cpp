@@ -40,10 +40,10 @@ TEST_F( JSONParserTest, Test ) {
   EXPECT_EQ( value, -123 );
   EXPECT_NO_THROW( parser.parseInto( value, "123.456" ) );
   EXPECT_EQ( value, Type::DOUBLE );
-  EXPECT_FLOAT_EQ( static_cast<double>(value), 123.456 );
+  EXPECT_FLOAT_EQ( static_cast<float>(value), 123.456 );
   EXPECT_NO_THROW( parser.parseInto( value, "-123.456" ) );
   EXPECT_EQ( value, Type::DOUBLE );
-  EXPECT_FLOAT_EQ( static_cast<double>(value), -123.456 );
+  EXPECT_FLOAT_EQ( static_cast<float>(value), -123.456 );
 
   EXPECT_NO_THROW( parser.parseInto( value, "[1,2 ,3 ]" ) );
   EXPECT_EQ( value, Type::ARRAY );
