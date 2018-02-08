@@ -166,23 +166,24 @@ namespace dv {
         template<typename O> struct visitor : public boost::static_visitor<bool> {
           visitor( O o, const JSON &json ) : oo( o ), j( json ) {}
 
-          template<typename JsonType, typename Other=O> bool call( JsonType &, const std::nullptr_t &, Other &&, PriorityTag<10> ) const {
+          template<typename JsonType, typename Other=O>
+          bool call( JsonType &, const std::nullptr_t &, Other &&, PriorityTag<10> ) const noexcept {
             return std::is_same<typename std::remove_const<typename std::remove_reference<Other>::type>::type, std::nullptr_t>::value;
           }
 
           template<typename JsonType, typename Current, typename Other=O, typename std::enable_if<are_comparable<Current, Other>::floatValue, int>::type = 0>
-          bool call( JsonType &, Current &&value, Other &&other, PriorityTag<8> ) const {
+          bool call( JsonType &, Current &&value, Other &&other, PriorityTag<8> ) const noexcept {
             return abs( other - value ) <= std::numeric_limits<JSONTypes::doubleType>::epsilon();
           }
 
           template<typename JsonType, typename Current, typename Other=O, typename std::enable_if<are_comparable<Other, Current>::value, int>::type = 0>
-          auto call( JsonType &, Current &&value, Other &&other, PriorityTag<7> ) const -> decltype( value == other ) {
+          auto call( JsonType &, Current &&value, Other &&other, PriorityTag<7> ) const noexcept -> decltype( value == other ) {
             return value == other;
           }
 
           template<typename JsonType, typename Current, typename Other=O,
             typename std::enable_if<variant_is_convertible<Other, JSONTypes::valueType>::value, int>::type = 0>
-          bool call( JsonType &, Current &&, Other &&, PriorityTag<6> ) const {
+          bool call( JsonType &, Current &&, Other &&, PriorityTag<6> ) const noexcept {
             return false;
           }
 
@@ -192,17 +193,17 @@ namespace dv {
             return json_compare( j, other );
           }
 
-//        template<typename JsonType, typename T>
-//        bool call( const JsonType &, T &, PriorityTag<0> ) const noexcept {
-//          static_assert( sizeof( JsonType ) == 0, "could not find json_compare() method in T's namespace" );
-//          return false;
-//        }
+          template<typename JsonType, typename Current, typename Other=O>
+          bool call( const JsonType &, Current &, Other &&, PriorityTag<0> ) const noexcept {
+            static_assert( sizeof( JsonType ) == 0, "could not find json_compare() method in T's namespace" );
+            return false;
+          }
 
           O oo;
           const JSON &j;
 
           template<typename X>
-          bool operator()( X &&val ) const {
+          bool operator()( X &&val ) const noexcept {
             return call( j, std::forward<X>( val ), oo, PriorityTag<10> {} );
           }
         };

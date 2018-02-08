@@ -169,7 +169,7 @@ class JSONTypeVisitor : public boost::static_visitor<Type> {
   TYPE( JSON::arrayType &, ARRAY )
 };
 
-Type JSON::type() const {
+Type JSON::type() const noexcept {
   JSONTypeVisitor visitor;
   return value.apply_visitor( visitor );
 }
@@ -215,9 +215,9 @@ void JSON::dump( std::ostream &os, unsigned int indent ) const {
   dump( os, indent, 1 );
 }
 
-static std::string doIndent( unsigned int indent, unsigned int level ) __attribute__((pure));
+static std::string doIndent( unsigned int indent, unsigned int level ) noexcept __attribute__((pure));
 
-static std::string doIndent( unsigned int indent, unsigned int level ) {
+static std::string doIndent( unsigned int indent, unsigned int level ) noexcept {
   std::string rt;
 
   if ( indent * level > 0 ) {
@@ -289,11 +289,11 @@ void JSON::dump( std::ostream &os, unsigned int indent, unsigned int level ) con
   }
 }
 
-bool JSON::operator==( Type t ) const {
+bool JSON::operator==( Type t ) const noexcept {
   return type() == t;
 }
 
-bool JSON::operator!=( Type t ) const {
+bool JSON::operator!=( Type t ) const noexcept {
   return type() != t;
 }
 

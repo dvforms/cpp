@@ -77,28 +77,6 @@ namespace dv {
       value.apply_visitor( visitor );
     }
 
-    template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
-    bool json_compare( const JSON &j, T value ) {
-      bool rt = false;
-
-      if ( j.type() == Type::INT ) {
-        rt = static_cast<JSON::intType>(j) == value;
-      }
-
-      return rt;
-    }
-
-    template<typename T, typename std::enable_if<std::is_floating_point<T>::value, int>::type = 0>
-    bool json_compare( const JSON &j, T value ) {
-      bool rt = false;
-
-      if ( j.type() == Type::DOUBLE ) {
-        rt = static_cast<JSON::doubleType>(j) == value;
-      }
-
-      return rt;
-    }
-
     template<typename T>
     bool json_compare( const JSON &j, const std::vector<T> &value ) {
       bool rt = true;

@@ -33,21 +33,21 @@ namespace dv {
       JSON &operator[]( const keyType &key ) __attribute__((pure));
       JSON &operator[]( indexType index ) __attribute__((pure));
       bool operator==( const JSON &other ) const;
-      bool operator==( Type ) const;
-      bool operator!=( Type ) const;
+      bool operator==( Type ) const noexcept;
+      bool operator!=( Type ) const noexcept;
       template<typename T> inline bool operator!=( const T &v ) const;
       template<typename T> inline bool operator==( const T &v ) const;
-      template<typename T> inline explicit operator T() const;
+      template<typename T> inline explicit operator T() const noexcept;
       template<typename T> inline typename JSONConstructor<T>::constructType as() const;
-      Type type() const;
-      inline JSONPtr sub( const keyType &key ) const;
+      Type type() const noexcept;
+      inline JSONPtr sub( const keyType &key ) const noexcept;
 
       bool compare( const JSON &other, JSONDiffListener &listener ) const;
 
       void dump( std::ostream &os, unsigned int indent = 0 ) const;
 
       inline JSONPtr emplaceBack( const JSONPtr &json );
-      inline size_t size() const;
+      inline size_t size() const noexcept;
       class ArrayIterator {
        public:
         explicit ArrayIterator( const arrayType *nArray ) : array( nArray ) {}
@@ -62,7 +62,7 @@ namespace dv {
        private:
         const arrayType *array;
       };
-      inline const ArrayIterator arrayIterator() const;
+      inline const ArrayIterator arrayIterator() const noexcept;
 
       class ObjectIterator {
        public:
@@ -78,7 +78,7 @@ namespace dv {
        private:
         const objectType *object;
       };
-      inline const ObjectIterator objectIterator() const;
+      inline const ObjectIterator objectIterator() const noexcept;
      protected:
       valueType value;
       void dump( std::ostream &os, unsigned int indent, unsigned int level ) const;
@@ -130,7 +130,7 @@ namespace dv {
       return value.apply_visitor( visitor );
     }
 
-    template<typename T> JSON::operator T() const {
+    template<typename T> JSON::operator T() const noexcept {
       detail::get_json_value_visitor<T> visitor( this );
       return value.apply_visitor( visitor );
     }
@@ -141,7 +141,7 @@ namespace dv {
       return *array.rbegin();
     }
 
-    inline size_t JSON::size() const {
+    inline size_t JSON::size() const noexcept {
       if ( type() == Type::ARRAY ) {
         return boost::get<arrayType>( value ).size();
       } else {
@@ -149,15 +149,15 @@ namespace dv {
       }
     }
 
-    inline const JSON::ArrayIterator JSON::arrayIterator() const {
+    inline const JSON::ArrayIterator JSON::arrayIterator() const noexcept {
       return ArrayIterator( &( boost::get<arrayType>( value ) ) );
     }
 
-    inline const JSON::ObjectIterator JSON::objectIterator() const {
+    inline const JSON::ObjectIterator JSON::objectIterator() const noexcept {
       return ObjectIterator( &( boost::get<objectType>( value ) ) );
     }
 
-    JSONPtr JSON::sub( const keyType &key ) const {
+    JSONPtr JSON::sub( const keyType &key ) const noexcept {
       JSONPtr rt;
       if ( value.type() == typeid( objectType ) ) {
         auto &obj = boost::get<objectType>( value );
