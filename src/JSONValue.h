@@ -26,14 +26,6 @@ namespace dv {
       JSON( JSON &&other ) = default;
       ~JSON() = default;
 
-      JSON &operator=( nullType );
-      JSON &operator=( boolType v );
-      JSON &operator=( const stringType &v );
-      JSON &operator=( const char *v );
-      JSON &operator=( intType );
-      JSON &operator=( doubleType );
-      JSON &operator=( const arrayType & );
-      JSON &operator=( const objectType & );
       JSON &operator=( Type );
       JSON &operator=( const JSON &other ) = default;
       JSON &operator=( JSON &&other ) = default;
@@ -41,11 +33,6 @@ namespace dv {
       JSON &operator[]( const keyType &key ) __attribute__((pure));
       JSON &operator[]( indexType index ) __attribute__((pure));
       bool operator==( const JSON &other ) const;
-      bool operator==( const char *string ) const;
-      bool operator==( const stringType &string ) const;
-      bool operator==( std::nullptr_t ) const;
-      bool operator!=( std::nullptr_t ) const;
-      bool operator==( bool ) const;
       bool operator==( Type ) const;
       bool operator!=( Type ) const;
       template<typename T> inline bool operator!=( const T &v ) const;
@@ -97,6 +84,8 @@ namespace dv {
       void dump( std::ostream &os, unsigned int indent, unsigned int level ) const;
       void writeEscaped( std::ostream &os, const stringType &v ) const;
       bool compare( const JSON &other, JSONDiffListener &listener, const JSONPath &path ) const;
+      friend struct detail::to_json_function;
+      friend struct detail::json_compare_function;
     };
 
     namespace detail {

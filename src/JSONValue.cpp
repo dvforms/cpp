@@ -174,46 +174,6 @@ Type JSON::type() const {
   return value.apply_visitor( visitor );
 }
 
-JSON &JSON::operator=( std::nullptr_t ) {
-  value = nullptr;
-  return *this;
-}
-
-JSON &JSON::operator=( bool v ) {
-  value = v;
-  return *this;
-}
-
-JSON &JSON::operator=( const JSON::stringType &v ) {
-  value = v;
-  return *this;
-}
-
-JSON &JSON::operator=( const char *v ) {
-  value = std::string( v );
-  return *this;
-}
-
-JSON &JSON::operator=( JSON::intType v ) {
-  value = v;
-  return *this;
-}
-
-JSON &JSON::operator=( JSON::doubleType v ) {
-  value = v;
-  return *this;
-}
-
-JSON &JSON::operator=( const JSON::arrayType &v ) {
-  value = v;
-  return *this;
-}
-
-JSON &JSON::operator=( const JSON::objectType &v ) {
-  value = v;
-  return *this;
-}
-
 JSON &JSON::operator=( Type v ) {
   switch ( v ) {
     case Type::ARRAY:
@@ -327,40 +287,6 @@ void JSON::dump( std::ostream &os, unsigned int indent, unsigned int level ) con
       break;
     }
   }
-}
-
-bool JSON::operator==( const char *string ) const {
-  bool rt = false;
-  if ( type() == Type::STRING ) {
-    rt = boost::get<stringType>( value ) == string;
-  }
-  return rt;
-}
-
-bool JSON::operator==( const stringType &string ) const {
-  bool rt = false;
-  if ( type() == Type::STRING ) {
-    rt = boost::get<stringType>( value ) == string;
-  }
-  return rt;
-}
-
-bool JSON::operator==( std::nullptr_t ) const {
-  return type() == Type::NULLVALUE;
-}
-
-bool JSON::operator!=( std::nullptr_t ) const {
-  return type() != Type::NULLVALUE;
-}
-
-bool JSON::operator==( bool v ) const {
-  bool rt = false;
-
-  if ( type() == Type::BOOL ) {
-    rt = v == boost::get<boolType>( value );
-  }
-
-  return rt;
 }
 
 bool JSON::operator==( Type t ) const {
