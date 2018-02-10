@@ -11,7 +11,7 @@
 #include "jsonfwd.h"          // for JSONTypes, JSONTypes::valueType
 #include "JSONErrorCollector.h"
 
-#define DISABLE_JSON_MISSING_FUNC
+//#define DISABLE_JSON_MISSING_FUNC
 
 namespace dv {
   namespace json {
@@ -99,7 +99,8 @@ namespace dv {
 
 #ifndef DISABLE_JSON_MISSING_FUNC
 
-          void call( const JsonType &, Current &, Other &&other, PriorityTag<0> ) const noexcept {
+          template<typename JsonType, typename Current, typename Other=O>
+          void call( const JsonType &, Current &, Other &&, PriorityTag<0> ) const noexcept {
             static_assert( sizeof( JsonType ) == 0, "could not find from_json() method in T's namespace" );
           }
 
