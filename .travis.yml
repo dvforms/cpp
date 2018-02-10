@@ -13,19 +13,21 @@ matrix:
           apt:
             sources:
               - george-edison55-precise-backports
+              - ppa:nschloe/boost-nightly
             packages:
               - cmake-data
               - cmake
               - ninja-build
-              - libboost-all-dev
+              - boost1.66
     - os: linux
       compiler: gcc
       addons:
           apt:
             sources:
               - george-edison55-precise-backports
+              - ppa:nschloe/boost-nightly
             packages:
               - cmake-data
               - cmake
               - ninja-build
-              - libboost-all-dev
+              - boost1.66
