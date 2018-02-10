@@ -6,6 +6,16 @@ script:
     - cmake ../ -G Ninja ${CMAKE_OPTIONS}
     - cmake --build .
     - ctest -V
+before_install: |
+              if [[ "${BOOST_VERSION}" != "" ]]; then
+                BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
+                if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
+                    BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
+                    mkdir -p ${BOOST_DIR}
+                    { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
+                fi
+                CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
+              fi
 matrix:
   include:
     - os: osx
@@ -13,18 +23,7 @@ matrix:
         - brew install ninja
     - os: linux
       compiler: clang
-      sudo: required
       env: BOOST_VERSION=1.66.0
-      before_install: |
-                      if [[ "${BOOST_VERSION}" != "" ]]; then
-                        BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
-                        if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
-                        BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
-                        mkdir -p ${BOOST_DIR}
-                        { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
-                        fi
-                        CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
-                      fi
       addons:
           apt:
             sources:
@@ -35,18 +34,7 @@ matrix:
               - ninja-build
     - os: linux
       compiler: gcc
-      sudo: required
       env: BOOST_VERSION=1.66.0
-      before_install: |
-                      if [[ "${BOOST_VERSION}" != "" ]]; then
-                        BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
-                        if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
-                        BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
-                        mkdir -p ${BOOST_DIR}
-                        { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
-                        fi
-                        CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
-                      fi
       addons:
           apt:
             sources:
