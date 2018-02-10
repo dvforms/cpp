@@ -8,7 +8,7 @@ script:
     - ctest -V
 before_install: |
               if [[ "${BOOST_VERSION}" != "" ]]; then
-                BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
+                BOOST_DIR=boost-${BOOST_VERSION}
                 if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
                     BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
                     mkdir -p ${BOOST_DIR}
