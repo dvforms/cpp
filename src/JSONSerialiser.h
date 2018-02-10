@@ -163,7 +163,8 @@ namespace dv {
 
           template<typename JsonType, typename Current, typename Other=O>
           bool call( const JsonType &, Current &, Other &&other, PriorityTag<5> ) const
-          noexcept( noexcept( json_compare( std::declval<JsonType>(), std::declval<Other>(), errorCollector, path ) ) ) {
+          noexcept( noexcept( json_compare( std::declval<JsonType>(), std::declval<Other>(), std::declval<JSONErrorCollectorPtr>(),
+                                            std::declval<JSONPath &>() ) ) ) {
             return json_compare( j, other, errorCollector, path );
           }
 

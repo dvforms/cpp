@@ -10,6 +10,7 @@
 #include <string>             // for string
 #include <unordered_map>      // for unordered_map
 #include <vector>             // for vector
+#include <sstream>
 
 namespace dv {
   namespace json {
