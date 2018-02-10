@@ -29,9 +29,10 @@ namespace dv {
       requiredType required;
       validType valid;
       visibleType visible;
+      friend void from_json( const json &j, FormInputSimple &input, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
     };
 
-    void from_json( const json &j, FormInputSimple &input );
+    void from_json( const json &j, FormInputSimple &input, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
   }
 }
 

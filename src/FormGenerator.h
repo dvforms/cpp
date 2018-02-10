@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include "json.h"
+#include "FormComponent.h"
 #include <algorithm>      // for forward
 #include <memory>         // for shared_ptr, enable_shared_from_this, make_shared
 
@@ -30,20 +31,20 @@ namespace dv {
       FormGenerator &operator=( FormGenerator && ) = default;
 
       template<typename T, typename... Args>
-      std::shared_ptr<T> create( Args... );
+      const std::shared_ptr<T> create( Args... );
     protected:
       json buildSections() const;
       std::unordered_map<std::string, FormSectionPtr> sections;
     };
 
     template<typename T, typename... Args>
-    std::shared_ptr<T> FormGenerator::create( Args... args ) {
+    const std::shared_ptr<T> FormGenerator::create( Args... args ) {
       auto rt = std::make_shared<T>( std::forward<Args...>( args )... );
       rt->setForm( shared_from_this() );
       return rt;
     }
 
-    void from_json( const json &j, FormGenerator &form );
+    void from_json( const json &j, FormGenerator &form, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
   }
 }
 

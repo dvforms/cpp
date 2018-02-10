@@ -206,25 +206,32 @@
             }
         },
         "risk": {
-            "label": "Risk"
+            "label": "Risk",
+            "fields": { }
         },
         "value": {
-            "label": "Value"
+            "label": "Value",
+            "fields": { }
         },
         "land": {
-            "label": "Land"
+            "label": "Land",
+            "fields": { }
         },
         "building": {
-            "label": "Building"
+            "label": "Building",
+            "fields": { }
         },
         "sales": {
-            "label": "Sales Evidence"
+            "label": "Sales Evidence",
+            "fields": { }
         },
         "comments": {
-            "label": "Comments"
+            "label": "Comments",
+            "fields": { }
         },
         "market_risk": {
-            "label": "Market Risk"
+            "label": "Market Risk",
+            "fields": { }
         }
     },
     "expressions": {

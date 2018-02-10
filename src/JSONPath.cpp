@@ -1,7 +1,15 @@
 #include "JSONPath.h"
+#include "json.h"
 #include <boost/variant.hpp>      // for type_info
 #include <boost/variant/get.hpp>  // for get
 #include <sstream>
+
+using namespace dv::json;
+
+const JSONPath &dv::json::emptyPath() {
+  static JSONPath empty;
+  return empty;
+}
 
 dv::json::JSONPath dv::json::JSONPath::operator/( const dv::json::JSON::stringType &name ) const {
   dv::json::JSONPath rt( *this );

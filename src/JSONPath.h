@@ -2,7 +2,7 @@
 #ifndef DVFORMSCPP_JSONPATH_H
 #define DVFORMSCPP_JSONPATH_H
 
-#include "json.h"
+#include "jsonfwd.h"
 #include <iosfwd>                     // for ostream
 #include <stddef.h>                   // for size_t
 #include <boost/variant/variant.hpp>  // for variant
@@ -13,8 +13,8 @@ namespace dv {
   namespace json {
     class JSONPath {
     public:
-      JSONPath operator/( const JSON::stringType &name ) const;
-      JSONPath operator/=( const JSON::stringType &name );
+      JSONPath operator/( const JSONTypes::stringType &name ) const;
+      JSONPath operator/=( const JSONTypes::stringType &name );
       JSONPath operator[]( size_t index ) const;
       bool operator<( const JSONPath &other ) const;
       bool operator>( const JSONPath &other ) const;
@@ -25,7 +25,7 @@ namespace dv {
 
       std::string toString() const;
     protected:
-      typedef boost::variant<JSON::stringType, size_t> componentType;
+      typedef boost::variant<JSONTypes::stringType, size_t> componentType;
       std::vector<componentType> path;
     };
 

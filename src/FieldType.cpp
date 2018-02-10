@@ -1,6 +1,6 @@
 #include "FieldType.h"
 
-void dv::forms::to_json( json &json, dv::forms::FieldType type ) {
+void dv::forms::to_json( json &json, dv::forms::FieldType type, const dv::json::JSONErrorCollectorPtr &/*collector*/, const dv::json::JSONPath &/*path*/ ) {
   switch ( type ) {
     case FieldType::TEXT:
       json = "text";

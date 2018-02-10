@@ -20,9 +20,10 @@ std::string FormGenerator::getSchema() const {
 
 json FormGenerator::generateSchema() const {
   json schema;
+  schema["$schema"] = "http://dvforms.org/v1#";
   schema["sections"] = buildSections();
-  schema["properties"] = nullptr;
-  schema["expressions"] = nullptr;
+  schema["properties"] = {};
+  schema["expressions"] = {};
   return schema;
 }
 
@@ -46,11 +47,12 @@ void FormGenerator::parseJSON( const json &j ) {
   *this = *j.as<FormGenerator>();
 }
 
-void dv::forms::from_json( const json &j, FormGenerator &form ) {
+void dv::forms::from_json( const json &j, FormGenerator &form, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path ) {
   auto sections = j.sub( "sections" );
   if ( sections ) {
     for ( const auto &section : sections->objectIterator() ) {
       auto sec = form.addSection( section.first );
+      dv::json::JSONSerialiser<FormSection>::from_json( *section.second, *sec, collector, path / "sections" / section.first );
     }
   }
 }

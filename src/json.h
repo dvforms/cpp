@@ -8,6 +8,7 @@
 #include "JSONDiffListener.h"
 #include "JSONValue.h"
 #include "JSONConverters.h"
+#include "JSONException.h"
 // IWYU pragma: end_exports
 
 #endif //DVFORMSCPP_JSON_H

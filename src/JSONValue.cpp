@@ -1,6 +1,7 @@
 #include "JSONValue.h"
 #include "JSONDiffListener.h"  // for JSONDiffListener, JSONDiffNullListener
 #include "JSONPath.h"          // for JSONPath
+#include "JSONConverters.h"
 #include <set>
 #include <sstream>
 #include <string>              // for string

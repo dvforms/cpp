@@ -26,14 +26,15 @@ TEST_F( FormGeneratorTest, Test ) {
   form->addSection( "ABC" );
   section->add<FormInputText>( "test" );
   JSON expected;
+  expected["$schema"] = "http://dvforms.org/v1#";
   expected["sections"]["ABC"]["order"] = 2;
   expected["sections"]["ABC"]["fields"] = nullptr;
   expected["sections"]["Main"]["order"] = 1;
   expected["sections"]["Main"]["fields"]["test"]["order"] = 1;
   expected["sections"]["Main"]["fields"]["test"]["required"] = false;
   expected["sections"]["Main"]["fields"]["test"]["type"] = "text";
-  expected["expressions"] = nullptr;
-  expected["properties"] = nullptr;
+  expected["expressions"] = {};
+  expected["properties"] = {};
   auto schema = form->generateSchema();
 
   JSONDiffListenerImpl listener;
@@ -51,7 +52,10 @@ TEST_F( FormGeneratorTest, ParseTest ) {
   ASSERT_TRUE( in.is_open() );
   p.parseInto( j, in );
   ASSERT_NE( j, nullptr );
-  form->parseJSON( j );
+  ASSERT_NO_THROW( form->parseJSON( j ) );
 
-//  FAIL() << j << std::endl << "---------------" << std::endl << form->generateSchema();
+  auto schema = form->generateSchema();
+  JSONDiffListenerImpl listener;
+  j.compare( schema, listener );
+//  EXPECT_EQ( j, schema ) << listener;
 }

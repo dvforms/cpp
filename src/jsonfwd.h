@@ -25,11 +25,23 @@ namespace dv {
 
     std::ostream &operator<<( std::ostream &os, Type type );
 
+    inline std::string operator+( const std::string &s, Type type ) {
+      std::ostringstream str;
+      str << s << type;
+      return str.str();
+    }
+
     class JSON;
+    typedef std::shared_ptr<JSON> JSONPtr;
     class JSONPath;// IWYU pragma: keep
     class JSONDiffListener;// IWYU pragma: keep
     class JSONDiffListenerImpl;
-    typedef std::shared_ptr<JSON> JSONPtr;
+    class JSONErrorCollector;
+    typedef std::shared_ptr<JSONErrorCollector> JSONErrorCollectorPtr;
+    class JSONErrorCollectorThrow;
+    class JSONErrorCollectorImpl;
+    JSONErrorCollectorPtr defaultErrorCollector();
+    const JSONPath &emptyPath();
 
     struct JSONTypes {
       typedef std::nullptr_t nullType;
@@ -55,6 +67,60 @@ namespace dv {
     template<typename T>
     inline bool operator!=( T &&v, const JSON &j ) {
       return j != v;
+    }
+
+    namespace detail {
+      template<typename X, typename Y>
+        struct variant_has_type {
+         private:
+          template<typename T, typename V>
+            struct has_type;
+
+          template<typename T, typename... Ts>
+            struct has_type<T, boost::variant<T, Ts...> > {
+              static const bool value = true;
+            };
+
+          template<typename T, typename U, typename... Ts>
+            struct has_type<T, boost::variant<U, Ts...> > : has_type<T, boost::variant<Ts..., void> > {};
+
+          template<typename T, typename... Ts>
+            struct has_type<T, boost::variant<void, Ts...> > {
+              static const bool value = false;
+            };
+         public:
+          static const bool value = has_type<typename std::remove_reference<typename std::remove_const<X>::type>::type, Y>::value;
+        };
+      template<typename X, typename Y> struct variant_has_type<const X, Y> : public variant_has_type<X, Y> {};
+      template<typename X, typename Y> struct variant_has_type<X &, Y> : public variant_has_type<X, Y> {};
+
+      template<typename X, typename Y>
+        struct variant_is_convertible {
+         private:
+          template<typename T, typename V>
+            struct is_convertible;
+
+          template<typename T, typename V, typename... Ts>
+            struct is_convertible<T, boost::variant<V, Ts...>> {
+              static const bool value = std::is_convertible<T, V>::value || is_convertible<T, boost::variant<Ts..., void>>::value;
+            };
+
+          template<typename T, typename... Ts>
+            struct is_convertible<T, boost::variant<void, Ts...>> {
+              static const bool value = false;
+            };
+         public:
+          static const bool value = is_convertible<X, Y>::value;
+        };
+      template<typename X, typename Y> struct variant_is_convertible<const X, Y> : public variant_is_convertible<X, Y> {};
+
+      static_assert( variant_is_convertible<const char[], JSONTypes::valueType>::value, "Should be convertible" );
+
+      static_assert( variant_has_type<std::string, JSONTypes::valueType>::value, "should have" );
+      static_assert( variant_has_type<const std::string, JSONTypes::valueType>::value, "should have" );
+      static_assert( variant_has_type<std::string &, JSONTypes::valueType>::value, "should have" );
+      static_assert( variant_has_type<const std::string &, JSONTypes::valueType>::value, "should have" );
+      static_assert( !variant_has_type<float, JSONTypes::valueType>::value, "shouldn't have" );
     }
   }
 }

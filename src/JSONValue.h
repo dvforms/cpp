@@ -39,6 +39,8 @@ namespace dv {
       template<typename T> inline bool operator==( const T &v ) const;
       template<typename T> inline explicit operator T() const noexcept;
       template<typename T> inline typename JSONConstructor<T>::constructType as() const;
+      template<typename T> inline typename JSONConstructor<T>::constructType as( typename JSONConstructor<T>::constructType & ) const;
+      template<typename T> inline bool is() const;
       Type type() const noexcept;
       inline JSONPtr sub( const keyType &key ) const noexcept;
 
@@ -85,6 +87,7 @@ namespace dv {
       void writeEscaped( std::ostream &os, const stringType &v ) const;
       bool compare( const JSON &other, JSONDiffListener &listener, const JSONPath &path ) const;
       friend struct detail::to_json_function;
+      friend struct detail::from_json_function;
       friend struct detail::json_compare_function;
     };
 
@@ -93,13 +96,21 @@ namespace dv {
       template<typename Ret, typename Wanted=Ret> struct get_json_value_visitor : public boost::static_visitor<Ret> {
         explicit get_json_value_visitor( const JSON *pj ) : j( pj ) {}
 
+        get_json_value_visitor( const JSON *pj, typename JSONConstructor<Wanted>::constructType *pRet ) : j( pj ), ret( pRet ) {}
+
         template<typename Actual, typename LRet=Ret>
         LRet call( Actual &value, const PriorityTag<3> &, typename std::enable_if<std::is_same<LRet, Actual>::value, int>::type = 0 ) {
+          if ( ret ) {
+            *ret = value;
+          }
           return value;
         }
 
         template<typename Actual, typename LRet=Ret>
         LRet call( Actual &value, const PriorityTag<2> &, typename std::enable_if<std::is_convertible<LRet, Actual>::value, int>::type = 0 ) {
+          if ( ret ) {
+            *ret = static_cast<LRet>(value);
+          }
           return static_cast<LRet>(value);
         }
 
@@ -110,7 +121,12 @@ namespace dv {
 
         template<typename Actual, typename LRet=Ret, typename W=Wanted, typename std::enable_if<!std::is_same<float, W>::value, int>::type = 0>
         LRet call( Actual &/*value*/, const PriorityTag<0> & ) {
-          typename JSONConstructor<Wanted>::constructType v = JSONConstructor<Wanted>::construct( static_cast<Wanted *>(nullptr) );
+          typename JSONConstructor<Wanted>::constructType v;
+          if ( ret ) {
+            v = *ret;
+          } else {
+            v = JSONConstructor<Wanted>::construct( static_cast<Wanted *>(nullptr) );
+          }
           JSONSerialiser<Wanted>::from_json( *j, v );
           return v;
         }
@@ -121,6 +137,7 @@ namespace dv {
 
        private:
         const JSON *j;
+        typename JSONConstructor<Wanted>::constructType *ret{ nullptr };
       };
     }
 
@@ -128,6 +145,17 @@ namespace dv {
     typename JSONConstructor<T>::constructType JSON::as() const {
       detail::get_json_value_visitor<typename JSONConstructor<T>::constructType, T> visitor( this );
       return value.apply_visitor( visitor );
+    }
+
+    template<typename T>
+    typename JSONConstructor<T>::constructType JSON::as( typename JSONConstructor<T>::constructType &other ) const {
+      detail::get_json_value_visitor<typename JSONConstructor<T>::constructType, T> visitor( this, &other );
+      return value.apply_visitor( visitor );
+    }
+
+    template<typename T> inline bool JSON::is() const {
+      static_assert( detail::variant_has_type<T, JSON::valueType>::value, "Must be one of the internal types" );
+      return value.type() == typeid( T );
     }
 
     template<typename T> JSON::operator T() const noexcept {
