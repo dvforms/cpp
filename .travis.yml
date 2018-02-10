@@ -9,6 +9,7 @@ matrix:
         - brew install ninja
     - os: linux
       compiler: clang
+      sudo: required
       addons:
           apt:
             sources:
@@ -21,6 +22,7 @@ matrix:
               - boost1.66
     - os: linux
       compiler: gcc
+      sudo: required
       addons:
           apt:
             sources:
