@@ -21,7 +21,7 @@ namespace dv {
 
       template<class T> std::shared_ptr<T> add( const std::string &name );
       const std::string &getLabel() const;
-      void setLabel( const std::string &label );
+      void setLabel( const std::string &nLabel );
 
      protected:
       std::unordered_map<std::string, FormComponentPtr> fields;
