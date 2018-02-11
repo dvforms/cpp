@@ -2,10 +2,8 @@
 #include <gmock/gmock.h>    // IWYU pragma: keep
 #include <FormGenerator.h>
 #include <FormSection.h>
-#include <FormInputText.h>  // IWYU pragma: keep
-#include "JSONPath.h"       // IWYU pragma: keep
-#include "json.h"           // for JSON, JSONDiffListenerImpl, operator<<
-#include "JSONParser.h"
+#include <FormInputText.h>
+#include <json.h>           // for JSON, JSONDiffListenerImpl, operator<<
 #include <fstream>
 #include <memory>           // for __shared_ptr_access, shared_ptr, make_shared
 #include "FieldType.h"      // for json
@@ -24,14 +22,15 @@ TEST_F( FormGeneratorTest, Test ) {
   auto form = std::make_shared<FormGenerator>();
   auto section = form->addSection( "Main" );
   form->addSection( "ABC" );
-  section->add<FormInputText>( "test" );
+  auto field = section->add<FormInputText>( "test" );
+  field->setRequired( true );
   JSON expected;
   expected["$schema"] = "http://dvforms.org/v1#";
   expected["sections"]["ABC"]["order"] = 2;
   expected["sections"]["ABC"]["fields"] = nullptr;
   expected["sections"]["Main"]["order"] = 1;
   expected["sections"]["Main"]["fields"]["test"]["order"] = 1;
-  expected["sections"]["Main"]["fields"]["test"]["required"] = false;
+  expected["sections"]["Main"]["fields"]["test"]["required"] = true;
   expected["sections"]["Main"]["fields"]["test"]["type"] = "text";
   expected["expressions"] = {};
   expected["properties"] = {};

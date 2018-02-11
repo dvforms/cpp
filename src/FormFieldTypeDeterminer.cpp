@@ -1,8 +1,14 @@
 #include "FormFieldTypeDeterminer.h"
-#include <sstream>
-#include "JSONErrorCollector.h"
-#include "FormGenerator.h"
-#include "FormInputText.h"
+#include "FormGenerator.h"    // for FormGeneratorPtr, FormGenerator
+#include "FormInputSimple.h"  // for from_json
+#include "FormInputText.h"    // for FormInputText
+#include "FieldType.h"        // for json
+#include <json.h>             // for JSONContext, JSONErrorCollector, JSONPath, JSON, JSONSerialiser
+#include <memory>             // for shared_ptr, __shared_ptr_access
+#include <sstream>            // for operator<<, ostringstream, basic_ostream
+#include <string>             // for operator==, basic_string, operator+, char_traits, string
+
+namespace dv { namespace forms { class FormInput; } }
 
 using namespace dv::forms;
 

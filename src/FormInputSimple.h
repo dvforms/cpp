@@ -8,6 +8,7 @@
 #include "FieldType.h"        // for json
 
 namespace dv {
+  namespace json { class JSONPath; }
   namespace forms {
     class FormExpression;
 

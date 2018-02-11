@@ -1,10 +1,11 @@
 #include "FormSection.h"
-#include "json.h"   // for JSON
 #include "FormFieldTypeDeterminer.h"
+#include <json.h>   // for JSON
 #include <utility>  // for pair
-#include <FormInputText.h>
+#include <cstddef>                    // for size_t
 
 using namespace dv::forms;
+using std::size_t;
 
 FormSection::FormSection() = default;
 

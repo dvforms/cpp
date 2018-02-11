@@ -2,7 +2,7 @@
 #include "FormComponent.h"  // for to_json
 #include "FormExpression.h" // IWYU pragma: keep
 #include "FormGenerator.h"
-#include "json.h"
+#include <json.h>
 
 using namespace dv::forms;
 using namespace dv::json;

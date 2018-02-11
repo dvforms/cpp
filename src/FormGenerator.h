@@ -2,10 +2,10 @@
 #ifndef DVFORMS_DVFORMGENERATOR_H
 #define DVFORMS_DVFORMGENERATOR_H
 
-#include "FormComponent.h"
+#include "FormComponent.h"// IWYU pragma: keep
+#include <json.h>
 #include <string>
 #include <unordered_map>
-#include <jsonfwd.h>
 #include <algorithm>      // for forward
 #include <memory>         // for shared_ptr, enable_shared_from_this, make_shared
 

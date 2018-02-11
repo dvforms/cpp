@@ -3,8 +3,10 @@
 #define DVFORMSCPP_FORMFIELDTYPEDETERMINER_H
 
 #include "FormComponent.h"
+#include <jsonfwd.h>
 
 namespace dv {
+  namespace json { class JSONPath; }
   namespace forms {
     class FormFieldTypeDeterminer {
      public:

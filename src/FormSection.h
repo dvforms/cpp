@@ -9,6 +9,7 @@
 #include <string>              // for string
 
 namespace dv {
+  namespace json { class JSONPath; }
   namespace forms {
     class FormSection;
     typedef std::shared_ptr<FormSection> FormSectionPtr;
