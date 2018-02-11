@@ -9,7 +9,14 @@ add_library ( dvforms SHARED
               FormExpression.cpp FormExpression.h
               FormFieldTypeDeterminer.cpp FormFieldTypeDeterminer.h )
 target_link_libraries ( dvforms PUBLIC Boost::boost dvjson )
-install ( TARGETS dvforms EXPORT dvformscpp DESTINATION ${CMAKE_INSTALL_LIBDIR} )
+set_target_properties ( dvforms PROPERTIES VERSION ${PROJECT_VERSION} )
+get_target_property ( HEADERS dvforms SOURCES )
+list ( FILTER HEADERS INCLUDE REGEX ".h$" )
+set_target_properties ( dvforms PROPERTIES PUBLIC_HEADER "${HEADERS}" )
+install ( TARGETS dvforms EXPORT dvformscpp
+          LIBRARY COMPONENT lib DESTINATION ${CMAKE_INSTALL_LIBDIR} NAMELINK_SKIP
+          PUBLIC_HEADER COMPONENT Devel DESTINATION include/dvformscpp/ )
+install ( TARGETS dvforms EXPORT dvformscpp LIBRARY NAMELINK_ONLY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Devel )
 target_include_directories ( dvforms PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
                              $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
                              $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include/dvformscpp/> )
