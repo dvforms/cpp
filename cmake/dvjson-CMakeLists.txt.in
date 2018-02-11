@@ -1,0 +1,15 @@
+cmake_minimum_required ( VERSION 3.6 )
+
+project ( dvjson-download NONE )
+
+include ( ExternalProject )
+externalproject_add ( dvjson
+                      GIT_REPOSITORY https://github.com/davidvanlaatum/dvjson.git
+                      GIT_TAG master
+                      SOURCE_DIR "${CMAKE_BINARY_DIR}/dvjson-src"
+                      BINARY_DIR "${CMAKE_BINARY_DIR}/dvjson-build"
+                      CONFIGURE_COMMAND ""
+                      BUILD_COMMAND ""
+                      INSTALL_COMMAND ""
+                      TEST_COMMAND ""
+                      )

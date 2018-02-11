@@ -1,0 +1,18 @@
+set ( OPTS dvjson )
+if ( dvjson_FIND_QUIETLY )
+  list ( APPEND OPTS QUIET )
+endif ()
+
+find_package ( ${OPTS} CONFIG )
+
+if ( NOT dvjson_FOUND )
+  configure_file ( cmake/dvjson-CMakeLists.txt.in dvjson-download/CMakeLists.txt )
+  execute_process ( COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" . WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/dvjson-download" )
+  execute_process ( COMMAND "${CMAKE_COMMAND}" --build . WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/dvjson-download" )
+  set ( SUBBUILD_DVJSON true )
+  add_subdirectory ( "${CMAKE_BINARY_DIR}/dvjson-src" "${CMAKE_BINARY_DIR}/dvjson-build" )
+  unset ( SUBBUILD_DVJSON )
+  set ( dvjson_FOUND true )
+endif ()
+include ( FindPackageHandleStandardArgs )
+find_package_handle_standard_args ( dvjson FOUND_VAR dvjson_FOUND REQUIRED_VARS dvjson_FOUND VERSION_VAR dvjson_VERSION )
