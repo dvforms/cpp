@@ -8,7 +8,7 @@ add_library ( dvforms SHARED
               FormInputSimple.cpp FormInputSimple.h
               FormExpression.cpp FormExpression.h
               FormFieldTypeDeterminer.cpp FormFieldTypeDeterminer.h )
-target_link_libraries ( dvforms PUBLIC SYSTEM Boost::boost dvjson )
+target_link_libraries ( dvforms PUBLIC Boost::boost dvjson )
 set_target_properties ( dvforms PROPERTIES VERSION ${PROJECT_VERSION} )
 get_target_property ( HEADERS dvforms SOURCES )
 list ( FILTER HEADERS INCLUDE REGEX ".h$" )
