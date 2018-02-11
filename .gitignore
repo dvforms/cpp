@@ -122,3 +122,5 @@ fabric.properties
 *.exe
 *.out
 *.app
+
+dvjson
