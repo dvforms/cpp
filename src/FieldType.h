@@ -19,7 +19,7 @@ namespace dv {
 
     std::ostream &operator<<( std::ostream &os, FieldType type );
     std::ostream &operator>>( std::ostream &os, FieldType &type );
-    void to_json( json &json, FieldType type, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
+    void to_json( json &json, FieldType type, const dv::json::JSONPath &path );
   }
 }
 

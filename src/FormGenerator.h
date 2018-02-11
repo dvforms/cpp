@@ -2,10 +2,10 @@
 #ifndef DVFORMS_DVFORMGENERATOR_H
 #define DVFORMS_DVFORMGENERATOR_H
 
+#include "FormComponent.h"
 #include <string>
 #include <unordered_map>
-#include "json.h"
-#include "FormComponent.h"
+#include <jsonfwd.h>
 #include <algorithm>      // for forward
 #include <memory>         // for shared_ptr, enable_shared_from_this, make_shared
 
@@ -44,7 +44,7 @@ namespace dv {
       return rt;
     }
 
-    void from_json( const json &j, FormGenerator &form, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
+    void from_json( const json &j, FormGenerator &form, const dv::json::JSONPath &path );
   }
 }
 

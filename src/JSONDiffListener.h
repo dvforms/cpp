@@ -5,10 +5,10 @@
 #include <iosfwd>  // for ostream
 #include <map>     // for map
 #include <string>  // for string
+#include <JSONPath.h>
 
 namespace dv {
   namespace json {
-    class JSONPath;
     class JSONDiffListener {
      public:
       virtual ~JSONDiffListener() = default;

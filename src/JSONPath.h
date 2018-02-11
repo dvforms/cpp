@@ -13,6 +13,7 @@ namespace dv {
   namespace json {
     class JSONPath {
     public:
+      typedef JSONPath defaultContextType;
       JSONPath operator/( const JSONTypes::stringType &name ) const;
       JSONPath operator/=( const JSONTypes::stringType &name );
       JSONPath operator[]( size_t index ) const;

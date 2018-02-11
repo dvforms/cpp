@@ -6,11 +6,6 @@
 
 using namespace dv::json;
 
-const JSONPath &dv::json::emptyPath() {
-  static JSONPath empty;
-  return empty;
-}
-
 dv::json::JSONPath dv::json::JSONPath::operator/( const dv::json::JSON::stringType &name ) const {
   dv::json::JSONPath rt( *this );
   rt.path.emplace_back( name );

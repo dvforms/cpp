@@ -41,19 +41,19 @@ void FormSection::setLabel( const std::string &nLabel ) {
   label = nLabel;
 }
 
-void dv::forms::from_json( const json &j, FormSection &section, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path ) {
+void dv::forms::from_json( const json &j, FormSection &section, const dv::json::JSONPath &path ) {
   auto fields = j.sub( "fields" );
   if ( fields ) {
     auto form = section.getForm();
     for ( const auto &item : fields->objectIterator() ) {
-      section.addComponent( item.first, FormFieldTypeDeterminer::fromJSON( item.second, form, collector, path / "fields" / item.first ) );
+      section.addComponent( item.first, FormFieldTypeDeterminer::fromJSON( item.second, form, path / "fields" / item.first ) );
     }
   } else {
-    collector->error( path, "No fields" );
+    dv::json::JSONContext::current()->get<dv::json::JSONErrorCollector>()->error( path, "No fields" );
   }
 
   auto label = j.sub( "label" );
   if ( label ) {
-    dv::json::JSONSerialiser<std::string>::from_json( *label, section.label, collector, path / "label" );
+    dv::json::JSONSerialiser<std::string>::from_json( *label, section.label, path / "label" );
   }
 }

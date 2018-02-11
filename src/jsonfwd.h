@@ -11,6 +11,17 @@
 #include <unordered_map>      // for unordered_map
 #include <vector>             // for vector
 #include <sstream>
+#include <type_traits>        // for is_convertible, remove_const, remove_reference
+
+#ifdef __has_attribute
+  #if __has_attribute( pure )
+    #define PURE __attribute__((pure))
+  #else
+    #define PURE
+  #endif
+#else
+  #define PURE
+#endif
 
 namespace dv {
   namespace json {
@@ -39,10 +50,10 @@ namespace dv {
     class JSONDiffListenerImpl;
     class JSONErrorCollector;
     typedef std::shared_ptr<JSONErrorCollector> JSONErrorCollectorPtr;
-    class JSONErrorCollectorThrow;
-    class JSONErrorCollectorImpl;
-    JSONErrorCollectorPtr defaultErrorCollector();
-    const JSONPath &emptyPath();
+    class JSONErrorCollectorThrow; // IWYU pragma: keep
+    class JSONErrorCollectorImpl; // IWYU pragma: keep
+    template<unsigned N> struct PriorityTag : PriorityTag<N - 1> {};
+    template<> struct PriorityTag<0> {};
 
     struct JSONTypes {
       typedef std::nullptr_t nullType;

@@ -2,10 +2,11 @@
 #include "json.h"                      // for JSON, JSONPtr, JSONTypes::doubleType, Type, JSONTypes::intType, Type::ARRAY, Type::INT, Type::OBJECT
 #include <boost/algorithm/string.hpp>  // for iequals
 #include <cctype>                      // for isspace, isdigit
-#include <cstddef>                    // for size_t
+#include <cstddef>                     // for size_t
 #include <list>                        // for _List_iterator, list
 #include <memory>                      // for __shared_ptr_access, __shared_ptr_access<>::element_type, make_shared, shared_ptr
 #include <sstream>                     // for operator<<, basic_istream::get, basic_ostream, basic_istream::unget, basic_istream::readsome, basic_istream::peek
+#include <vector>                      // for vector
 
 using namespace dv::json;
 

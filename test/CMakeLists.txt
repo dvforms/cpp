@@ -2,7 +2,8 @@ add_executable ( testjson
                  testmain.cpp
                  JSONPathTest.cpp
                  JSONTest.cpp
-                 JSONParserTest.cpp )
+                 JSONParserTest.cpp
+                 JSONContextTest.cpp )
 target_link_libraries ( testjson GTest GMock dvjson )
 
 add_test ( NAME testjson COMMAND ${CMAKE_SOURCE_DIR}/scripts/testdriver.sh $<TARGET_FILE:testjson> WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} )

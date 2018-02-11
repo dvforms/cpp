@@ -1,6 +1,7 @@
 #include "FormGenerator.h"
 #include "FormComponent.h"  // for json, to_json
 #include "FormSection.h"
+#include <json.h>
 #include <sstream>
 #include <utility>          // for pair
 
@@ -47,12 +48,12 @@ void FormGenerator::parseJSON( const json &j ) {
   *this = *j.as<FormGenerator>();
 }
 
-void dv::forms::from_json( const json &j, FormGenerator &form, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path ) {
+void dv::forms::from_json( const json &j, FormGenerator &form, const dv::json::JSONPath &path ) {
   auto sections = j.sub( "sections" );
   if ( sections ) {
     for ( const auto &section : sections->objectIterator() ) {
       auto sec = form.addSection( section.first );
-      dv::json::JSONSerialiser<FormSection>::from_json( *section.second, *sec, collector, path / "sections" / section.first );
+      dv::json::JSONSerialiser<FormSection>::from_json( *section.second, *sec, path / "sections" / section.first );
     }
   }
 }

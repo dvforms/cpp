@@ -51,7 +51,7 @@ void FormInputSimple::setVisible( const FormInputSimple::visibleType &nVisible )
   visible = nVisible;
 }
 
-void dv::forms::from_json( const json &j, FormInputSimple &input, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path ) {
+void dv::forms::from_json( const json &j, FormInputSimple &input, const dv::json::JSONPath &/*path*/ ) {
   auto val = j.sub( "required" );
   if ( val ) {
     if ( val->is<bool>() ) {

@@ -26,15 +26,15 @@ namespace dv {
       std::unordered_map<std::string, FormComponentPtr> fields;
       std::string label;
       virtual void addComponent( const std::string &name, const FormComponentPtr & );
-      friend void from_json( const json &j, FormSection &section, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
+      friend void from_json( const json &j, FormSection &section, const dv::json::JSONPath &path );
     };
 
     template<class T>
     std::shared_ptr<T> FormSection::add( const std::string &name ) {
-      auto form = getForm();
+      auto f = getForm();
       std::shared_ptr<T> rt;
-      if ( form ) {
-        rt = form->create<T>();
+      if ( f ) {
+        rt = f->create<T>();
       } else {
         rt = std::make_shared<T>();
       }
@@ -42,7 +42,7 @@ namespace dv {
       return rt;
     }
 
-    void from_json( const json &j, FormSection &section, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
+    void from_json( const json &j, FormSection &section, const dv::json::JSONPath &path );
   }
 }
 

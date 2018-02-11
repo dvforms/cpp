@@ -4,10 +4,6 @@
 
 using namespace dv::json;
 
-JSONErrorCollectorPtr dv::json::defaultErrorCollector() {
-  return std::make_shared<JSONErrorCollectorThrow>();
-}
-
 JSONErrorCollector::~JSONErrorCollector() = default;
 
 JSONErrorCollectorThrow::~JSONErrorCollectorThrow() = default;

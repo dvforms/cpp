@@ -9,6 +9,7 @@
     { "include": [ "<gtest/gtest-message.h>", "private", "<gtest/gtest.h>", "public" ] },
     { "include": [ "<gtest/gtest-test-part.h>", "private", "<gtest/gtest.h>", "public" ] },
     { "include": [ "<bits/exception.h>", "private", "<stdexcept>", "public" ] },
+    { "include": [ "<bits/std_function.h>", "private", "<functional>", "public" ] },
     { "include": [ "<boost/algorithm/string/predicate.hpp>", "private", "<boost/algorithm/string.hpp>", "public" ] },
     { "include": [ "<ext/alloc_traits.h>", "private", "<unordered_map>", "public" ] },
     { "include": [ "<ext/alloc_traits.h>", "private", "<unordered_set>", "public" ] },

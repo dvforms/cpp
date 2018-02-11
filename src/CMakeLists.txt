@@ -8,7 +8,8 @@ add_library ( dvjson SHARED
               JSONDiffListener.cpp JSONDiffListener.h
               JSONConverters.h
               JSONException.cpp JSONException.h
-              JSONErrorCollector.cpp JSONErrorCollector.h )
+              JSONErrorCollector.cpp JSONErrorCollector.h
+              JSONContext.h JSONContext.cpp )
 target_link_libraries ( dvjson PUBLIC Boost::boost )
 install ( TARGETS dvjson EXPORT dvformscpp DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 target_include_directories ( dvjson PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

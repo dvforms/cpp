@@ -26,14 +26,14 @@ namespace dv {
     };
 
     template<class T, typename std::enable_if<std::is_base_of<FormComponent, T>::value, int>::type = 0>
-    inline void to_json( json &j, const T &value, const dv::json::JSONErrorCollectorPtr &/*collector*/, const dv::json::JSONPath &/*path*/ ) {
+    inline void to_json( json &j, const T &value, const dv::json::JSONPath &/*path*/ ) {
       j = value.generateSchema();
     }
 
     template<class T, typename std::enable_if<std::is_base_of<FormComponent, T>::value, int>::type = 0>
-    inline void to_json( json &j, const std::shared_ptr<T> &value, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path ) {
+    inline void to_json( json &j, const std::shared_ptr<T> &value, const dv::json::JSONPath &path ) {
       if ( value ) {
-        to_json( j, *value, collector, path );
+        to_json( j, *value, path );
       } else {
         j = nullptr;
       }

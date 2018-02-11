@@ -2,7 +2,6 @@
 #ifndef DVFORMSCPP_JSONEXCEPTION_H
 #define DVFORMSCPP_JSONEXCEPTION_H
 
-#include <jsonfwd.h>
 #include <stdexcept>
 #include <string>
 

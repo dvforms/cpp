@@ -9,9 +9,9 @@ namespace dv {
     class FormFieldTypeDeterminer {
      public:
       static FormComponentPtr
-      fromJSON( const json &j, FormGeneratorPtr &form, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
+      fromJSON( const json &j, FormGeneratorPtr &form, const dv::json::JSONPath &path );
       static FormComponentPtr
-      fromJSON( const dv::json::JSONPtr &j, FormGeneratorPtr &form, const dv::json::JSONErrorCollectorPtr &collector, const dv::json::JSONPath &path );
+      fromJSON( const dv::json::JSONPtr &j, FormGeneratorPtr &form, const dv::json::JSONPath &path );
     };
   }
 }
