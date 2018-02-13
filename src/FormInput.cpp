@@ -12,15 +12,15 @@ json FormInput::generateSchema() const {
   json rt;
 
   rt["type"] = getType();
-  if ( !label.empty() ) { rt["label"] = label; }
+  rt["label"] = label;
   if ( !help.empty() ) { rt["help"] = help; }
 
   return rt;
 }
 
-void dv::forms::from_json( const json &j, FormInput &input, const dv::json::JSONPath &path ) {
-  auto label = j.sub( "label" );
-  if ( label ) { dv::json::JSONSerialiser<FormInput>::from_json( *label, input.label, path / "label" ); }
-  auto help = j.sub( "help" );
-  if ( help ) { dv::json::JSONSerialiser<FormInput>::from_json( *help, input.help, path / "help" ); }
+void FormInput::fromJSON( const json &j, const dv::json::JSONPath &path ) {
+  auto value = j.sub( "label" );
+  if ( value ) { dv::json::JSONSerialiser<FormInput>::from_json( *value, label, path / "label" ); }
+  value = j.sub( "help" );
+  if ( value ) { dv::json::JSONSerialiser<FormInput>::from_json( *value, help, path / "help" ); }
 }

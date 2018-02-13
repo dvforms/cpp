@@ -27,5 +27,8 @@ void dv::forms::to_json( json &json, dv::forms::FieldType type, const dv::json::
     case FieldType::REPEATING:
       json = "repeating";
       break;
+    case FieldType::DECIMAL:
+      json = "decimal";
+      break;
   }
 }

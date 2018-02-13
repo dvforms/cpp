@@ -1,6 +1,7 @@
 #include "FormInputSimple.h"
 #include "FormComponent.h"  // for to_json
 #include "FormExpression.h" // IWYU pragma: keep
+#include "../../../../../opt/local/libexec/llvm-5.0/include/c++/v1/string"
 #include <json.h>
 
 using namespace dv::forms;
@@ -21,6 +22,7 @@ json FormInputSimple::generateSchema() const {
   if ( required != false ) { rt["required"] = required; }
   if ( valid ) { rt["valid"] = valid; }
   if ( visible ) { rt["visible"] = visible; }
+  if ( !placeholder.empty() ) { rt["placeholder"] = placeholder; }
 
   return rt;
 }
@@ -39,14 +41,26 @@ const FormInputSimple::visibleType &FormInputSimple::getVisible() const { return
 
 void FormInputSimple::setVisible( const FormInputSimple::visibleType &nVisible ) { visible = nVisible; }
 
-void dv::forms::from_json( const json &j, FormInputSimple &input, const dv::json::JSONPath &path ) {
-  from_json( j, *static_cast<FormInput *>( &input ), path );
+const std::string &FormInputSimple::getPlaceholder() const {
+  return placeholder;
+}
+
+void FormInputSimple::setPlaceholder( const std::string &nPlaceholder ) {
+  placeholder = nPlaceholder;
+}
+
+void FormInputSimple::fromJSON( const json &j, const dv::json::JSONPath &path ) {
+  FormInput::fromJSON( j, path );
   auto val = j.sub( "required" );
   if ( val ) {
     if ( val->is<bool>() ) {
-      input.required = val->as<bool>();
+      required = val->as<bool>();
     } else {
       //      input.required = input.getForm()->getExpression( val.as<std::string>() );
     }
+  }
+  val = j.sub( "placeholder" );
+  if ( val ) {
+    dv::json::JSONSerialiser<FormInputSimple>::from_json( *val, placeholder, path / "placeholder" );
   }
 }

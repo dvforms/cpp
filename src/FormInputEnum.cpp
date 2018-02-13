@@ -30,22 +30,29 @@ json FormInputEnum::generateSchema() const {
     for ( const auto &item : options ) { opt.emplaceBack( std::make_shared<json>( item.second ) ); }
   }
 
+  if ( !defaultValue.empty() ) {
+    j["default"] = defaultValue;
+  }
+
   return j;
 }
 
-void dv::forms::from_json( const json &j, FormInputEnum &input, const dv::json::JSONPath &path ) {
-  dv::json::JSONSerialiser<FormInputEnum>::from_json( j, *static_cast<FormInputSimple *>( &input ), path );
-
-  auto opts = j.sub( "options" );
-  if ( opts ) {
-    if ( opts->type() == dv::json::Type::OBJECT ) {
-      for ( const auto &item : opts->objectIterator() ) { input.options.emplace( item.first, item.second->as<std::string>() ); }
-    } else if ( opts->type() == dv::json::Type::ARRAY ) {
+void FormInputEnum::fromJSON( const json &j, const dv::json::JSONPath &path ) {
+  FormInputSimple::fromJSON( j, path );
+  auto value = j.sub( "options" );
+  if ( value ) {
+    if ( value->type() == dv::json::Type::OBJECT ) {
+      for ( const auto &item : value->objectIterator() ) { options.emplace( item.first, item.second->as<std::string>() ); }
+    } else if ( value->type() == dv::json::Type::ARRAY ) {
       size_t i = 0;
-      for ( const auto &item : opts->arrayIterator() ) { input.options.emplace( i++, item->as<std::string>() ); }
+      for ( const auto &item : value->arrayIterator() ) { options.emplace( i++, item->as<std::string>() ); }
     } else {
       dv::json::JSONContext::current()->get<dv::json::JSONErrorCollector>()->error( path, "Unexpected type" );
     }
+  }
+  value = j.sub( "default" );
+  if ( value ) {
+    dv::json::JSONSerialiser<FormInputEnum>::from_json( *value, defaultValue, path / "default" );
   }
 }
 

@@ -13,7 +13,7 @@ add_library ( dvforms SHARED
               FormInputCurrency.cpp FormInputCurrency.h
               FormInputNumber.cpp FormInputNumber.h
               FormInputMultiple.cpp FormInputMultiple.h
-              FormInputRepeating.cpp FormInputRepeating.h FormFwd.h Forms.h )
+              FormInputRepeating.cpp FormInputRepeating.h FormFwd.h Forms.h FieldContainer.cpp FieldContainer.h FormInputDecimal.cpp FormInputDecimal.h )
 target_link_libraries ( dvforms PUBLIC Boost::boost dvjson )
 set_target_properties ( dvforms PROPERTIES VERSION ${PROJECT_VERSION} )
 get_target_property ( HEADERS dvforms SOURCES )

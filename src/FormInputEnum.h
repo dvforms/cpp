@@ -18,15 +18,14 @@ namespace dv {
       ~FormInputEnum() override;
       FieldType getType() const override;
       json generateSchema() const override;
+      void fromJSON( const json &j, const dv::json::JSONPath &path ) override;
 
     protected:
       typedef boost::variant<std::string, std::size_t> keyType;
       dv::json::UnorderedIndexedMap<keyType, std::string> options;
       std::string toKey( const keyType &key ) const;
-      friend void from_json( const json &j, FormInputEnum &input, const dv::json::JSONPath &path );
+      std::string defaultValue;
     };
-
-    void from_json( const json &j, FormInputEnum &input, const dv::json::JSONPath &path );
   }
 }
 #endif // DVFORMSCPP_FORMINPUTENUM_H

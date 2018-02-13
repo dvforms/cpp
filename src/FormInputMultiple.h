@@ -4,13 +4,15 @@
 
 #include "FormFwd.h"
 #include "FormInput.h"
+#include "FieldContainer.h"
 
 namespace dv {
   namespace forms {
-    class FormInputMultiple : public FormInput {
+    class FormInputMultiple : public FormInput, public FieldContainer {
     public:
       FieldType getType() const override;
-
+      void fromJSON( const json &j, const dv::json::JSONPath &path ) override;
+      json generateSchema() const override;
     public:
     };
   }

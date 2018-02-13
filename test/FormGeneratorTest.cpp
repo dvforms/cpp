@@ -27,6 +27,7 @@ TEST_F( FormGeneratorTest, Test ) {
   expected["sections"]["Main"]["fields"]["test"]["order"] = 1;
   expected["sections"]["Main"]["fields"]["test"]["required"] = true;
   expected["sections"]["Main"]["fields"]["test"]["type"] = "text";
+  expected["sections"]["Main"]["fields"]["test"]["label"] = "";
   //  expected["expressions"] = {};
   //  expected["properties"] = {};
   auto schema = form->generateSchema();

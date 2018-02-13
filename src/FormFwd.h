@@ -26,7 +26,7 @@ namespace dv {
   namespace forms {
     using json = dv::json::JSON;
 
-    enum class FieldType { TEXT, NUMBER, EMAIL, CURRENCY, STATIC, ENUM, MULTIPLE, REPEATING };
+    enum class FieldType { TEXT, NUMBER, EMAIL, CURRENCY, STATIC, ENUM, MULTIPLE, REPEATING, DECIMAL };
 
     std::ostream &operator<<( std::ostream &os, FieldType type );
     std::ostream &operator>>( std::ostream &os, FieldType &type );

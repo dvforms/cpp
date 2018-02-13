@@ -28,15 +28,16 @@ namespace dv {
       void setValid( const validType &nValid );
       const visibleType &getVisible() const;
       void setVisible( const visibleType &nVisible );
+      const std::string &getPlaceholder() const;
+      void setPlaceholder( const std::string &placeholder );
+      void fromJSON( const json &j, const dv::json::JSONPath &path ) override;
 
     protected:
       requiredType required;
       validType valid;
       visibleType visible;
-      friend void from_json( const json &j, FormInputSimple &input, const dv::json::JSONPath &path );
+      std::string placeholder;
     };
-
-    void from_json( const json &j, FormInputSimple &input, const dv::json::JSONPath &path );
   }
 }
 

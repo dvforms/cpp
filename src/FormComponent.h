@@ -15,6 +15,7 @@ namespace dv {
       virtual ~FormComponent();
       virtual json generateSchema() const = 0;
       FormGeneratorPtr getForm() const;
+      virtual void fromJSON( const json &j, const dv::json::JSONPath &path ) = 0;
 
     protected:
       void setForm( const FormGeneratorPtr &nForm );
@@ -40,6 +41,11 @@ namespace dv {
 
     template<typename T, typename std::enable_if<std::is_base_of<FormComponent, T>::value, int>::type = 0> std::shared_ptr<T> json_construct( T *, json * ) {
       return std::make_shared<T>();
+    }
+
+    template<typename T, typename std::enable_if<std::is_base_of<FormComponent, T>::value, int>::type = 0>
+    void from_json( const json &j, T &component, const dv::json::JSONPath &path ) {
+      component.fromJSON( j, path );
     }
   }
 }
