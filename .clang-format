@@ -49,9 +49,11 @@ DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
 ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
 IncludeCategories:
+  - Regex:           '^<(gtest|gmock).*'
+    Priority:        -1
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
-  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
+  - Regex:           '^(<|"(isl|json)/)'
     Priority:        3
   - Regex:           '.*'
     Priority:        1
