@@ -8,7 +8,7 @@
 namespace dv {
   namespace forms {
     class FormInputNumber : public FormInputSimple {
-     public:
+    public:
       FormInputNumber();
       ~FormInputNumber() override;
       FieldType getType() const override;
@@ -16,4 +16,4 @@ namespace dv {
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTNUMBER_H
+#endif // DVFORMSCPP_FORMINPUTNUMBER_H

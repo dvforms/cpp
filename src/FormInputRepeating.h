@@ -8,10 +8,10 @@
 namespace dv {
   namespace forms {
     class FormInputRepeating : public FormInput {
-     public:
+    public:
       FieldType getType() const override;
     };
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTREPEATING_H
+#endif // DVFORMSCPP_FORMINPUTREPEATING_H

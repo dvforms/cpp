@@ -6,16 +6,16 @@
 #include <jsonfwd.h>
 
 namespace dv {
-  namespace json { class JSONPath; }
+  namespace json {
+    class JSONPath;
+  }
   namespace forms {
     class FormFieldTypeDeterminer {
-     public:
-      static FormComponentPtr
-      fromJSON( const json &j, FormGeneratorPtr &form, const dv::json::JSONPath &path );
-      static FormComponentPtr
-      fromJSON( const dv::json::JSONPtr &j, FormGeneratorPtr &form, const dv::json::JSONPath &path );
+    public:
+      static FormComponentPtr fromJSON( const json &j, FormGeneratorPtr &form, const dv::json::JSONPath &path );
+      static FormComponentPtr fromJSON( const dv::json::JSONPtr &j, FormGeneratorPtr &form, const dv::json::JSONPath &path );
     };
   }
 }
 
-#endif //DVFORMSCPP_FORMFIELDTYPEDETERMINER_H
+#endif // DVFORMSCPP_FORMFIELDTYPEDETERMINER_H

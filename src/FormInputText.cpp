@@ -6,6 +6,4 @@ FormInputText::FormInputText() = default;
 
 FormInputText::~FormInputText() = default;
 
-FieldType FormInputText::getType() const {
-  return FieldType::TEXT;
-}
+FieldType FormInputText::getType() const { return FieldType::TEXT; }

@@ -8,11 +8,12 @@
 namespace dv {
   namespace forms {
     class FormInputMultiple : public FormInput {
-     public:
+    public:
       FieldType getType() const override;
-     public:
+
+    public:
     };
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTMULTIPLE_H
+#endif // DVFORMSCPP_FORMINPUTMULTIPLE_H

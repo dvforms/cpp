@@ -2,6 +2,4 @@
 
 using namespace dv::forms;
 
-FieldType FormInputMultiple::getType() const {
-  return FieldType::MULTIPLE;
-}
+FieldType FormInputMultiple::getType() const { return FieldType::MULTIPLE; }

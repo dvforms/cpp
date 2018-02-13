@@ -6,6 +6,4 @@ FormInputCurrency::FormInputCurrency() = default;
 
 FormInputCurrency::~FormInputCurrency() = default;
 
-FieldType FormInputCurrency::getType() const {
-  return FieldType::CURRENCY;
-}
+FieldType FormInputCurrency::getType() const { return FieldType::CURRENCY; }

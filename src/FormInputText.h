@@ -16,4 +16,4 @@ namespace dv {
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTTEXT_H
+#endif // DVFORMSCPP_FORMINPUTTEXT_H

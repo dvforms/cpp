@@ -1,23 +1,22 @@
 #include "FormFieldTypeDeterminer.h"
 #include "FormFwd.h"
-#include "FormGenerator.h"    // for FormGeneratorPtr, FormGenerator
+#include "FormGenerator.h" // for FormGeneratorPtr, FormGenerator
 #include "FormInput.h"
 #include "FormInputCurrency.h"
 #include "FormInputEnum.h"
 #include "FormInputMultiple.h"
 #include "FormInputRepeating.h"
-#include "FormInputSimple.h"  // for from_json
+#include "FormInputSimple.h" // for from_json
 #include "FormInputStatic.h"
-#include "FormInputText.h"    // for FormInputText
-#include <json.h>             // for JSONContext, JSONErrorCollector, JSONPath, JSON, JSONSerialiser
-#include <memory>             // for shared_ptr, __shared_ptr_access
-#include <sstream>            // for operator<<, ostringstream, basic_ostream
-#include <string>             // for operator==, basic_string, operator+, char_traits, string
+#include "FormInputText.h" // for FormInputText
+#include <json.h>          // for JSONContext, JSONErrorCollector, JSONPath, JSON, JSONSerialiser
+#include <memory>          // for shared_ptr, __shared_ptr_access
+#include <sstream>         // for operator<<, ostringstream, basic_ostream
+#include <string>          // for operator==, basic_string, operator+, char_traits, string
 
 using namespace dv::forms;
 
-FormComponentPtr
-FormFieldTypeDeterminer::fromJSON( const json &j, FormGeneratorPtr &form, const dv::json::JSONPath &path ) {
+FormComponentPtr FormFieldTypeDeterminer::fromJSON( const json &j, FormGeneratorPtr &form, const dv::json::JSONPath &path ) {
   FormComponentPtr rt;
   const auto type = j.sub( "type" );
   if ( !type ) {

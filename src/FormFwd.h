@@ -3,39 +3,30 @@
 #define DVFORMSCPP_FORMFWD_H
 
 #ifdef __has_attribute
-  #if __has_attribute( pure )
-    #define PURE __attribute__((pure))
-  #else
-    #define PURE
-  #endif
-  #if __has_attribute( unused )
-    #define UNUSED __attribute__((unused))
-  #else
-    #define UNUSED
-  #endif
+#if __has_attribute( pure )
+#define PURE __attribute__( ( pure ) )
 #else
 #define PURE
-  #define UNUSED
+#endif
+#if __has_attribute( unused )
+#define UNUSED __attribute__( ( unused ) )
+#else
+#define UNUSED
+#endif
+#else
+#define PURE
+#define UNUSED
 #endif
 
+#include <iosfwd> // for ostream
 #include <jsonfwd.h>
-#include <iosfwd>     // for ostream
 #include <memory>
 
 namespace dv {
   namespace forms {
     using json = dv::json::JSON;
 
-    enum class FieldType {
-      TEXT,
-      NUMBER,
-      EMAIL,
-      CURRENCY,
-      STATIC,
-      ENUM,
-      MULTIPLE,
-      REPEATING
-    };
+    enum class FieldType { TEXT, NUMBER, EMAIL, CURRENCY, STATIC, ENUM, MULTIPLE, REPEATING };
 
     std::ostream &operator<<( std::ostream &os, FieldType type );
     std::ostream &operator>>( std::ostream &os, FieldType &type );
@@ -71,4 +62,4 @@ namespace dv {
   }
 }
 
-#endif //DVFORMSCPP_FORMFWD_H
+#endif // DVFORMSCPP_FORMFWD_H

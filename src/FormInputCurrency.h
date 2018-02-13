@@ -8,7 +8,7 @@
 namespace dv {
   namespace forms {
     class FormInputCurrency : public FormInputNumber {
-     public:
+    public:
       FormInputCurrency();
       ~FormInputCurrency() override;
       FieldType getType() const override;
@@ -16,4 +16,4 @@ namespace dv {
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTCURRENCY_H
+#endif // DVFORMSCPP_FORMINPUTCURRENCY_H

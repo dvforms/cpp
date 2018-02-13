@@ -8,7 +8,7 @@
 namespace dv {
   namespace forms {
     class FormInputStatic : public FormInputSimple {
-     public:
+    public:
       FormInputStatic();
       ~FormInputStatic() override;
       FieldType getType() const override;
@@ -16,4 +16,4 @@ namespace dv {
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTSTATIC_H
+#endif // DVFORMSCPP_FORMINPUTSTATIC_H

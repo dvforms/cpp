@@ -6,6 +6,4 @@ FormInputNumber::FormInputNumber() = default;
 
 FormInputNumber::~FormInputNumber() = default;
 
-FieldType FormInputNumber::getType() const {
-  return FieldType::NUMBER;
-}
+FieldType FormInputNumber::getType() const { return FieldType::NUMBER; }

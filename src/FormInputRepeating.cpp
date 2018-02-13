@@ -2,6 +2,4 @@
 
 using namespace dv::forms;
 
-FieldType FormInputRepeating::getType() const {
-  return FieldType::REPEATING;
-}
+FieldType FormInputRepeating::getType() const { return FieldType::REPEATING; }

@@ -2,8 +2,8 @@
 #ifndef DVFORMSCPP_FORMEXPRESSION_H
 #define DVFORMSCPP_FORMEXPRESSION_H
 
-#include "FormFwd.h" // IWYU pragma: keep
 #include "FormComponent.h"
+#include "FormFwd.h" // IWYU pragma: keep
 
 namespace dv {
   namespace forms {
@@ -14,4 +14,4 @@ namespace dv {
     };
   }
 }
-#endif //DVFORMSCPP_FORMEXPRESSION_H
+#endif // DVFORMSCPP_FORMEXPRESSION_H

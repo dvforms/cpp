@@ -1,8 +1,8 @@
 #include "FormSection.h"
 #include "FormFieldTypeDeterminer.h"
-#include <cstddef>                    // for size_t
-#include <json.h>                     // for JSON
-#include <utility>                    // for pair
+#include <cstddef> // for size_t
+#include <json.h>  // for JSON
+#include <utility> // for pair
 
 using namespace dv::forms;
 using std::size_t;
@@ -17,31 +17,23 @@ json FormSection::generateSchema() const {
   size_t i = 1;
   auto &f = rt["fields"];
   f = {};
-  for ( const auto &item: fields ) {
+  for ( const auto &item : fields ) {
     auto j = item.second->generateSchema();
     j["order"] = i++;
     f[item.first] = j;
   }
 
-  if ( !label.empty() ) {
-    rt["label"] = label;
-  }
+  if ( !label.empty() ) { rt["label"] = label; }
   return rt;
 }
 
 void FormSection::addComponent( const std::string &name, const FormComponentPtr &field ) {
-  if ( field ) {
-    fields.emplace( fields.end(), name, field );
-  }
+  if ( field ) { fields.emplace( fields.end(), name, field ); }
 }
 
-const std::string &FormSection::getLabel() const {
-  return label;
-}
+const std::string &FormSection::getLabel() const { return label; }
 
-void FormSection::setLabel( const std::string &nLabel ) {
-  label = nLabel;
-}
+void FormSection::setLabel( const std::string &nLabel ) { label = nLabel; }
 
 void dv::forms::from_json( const json &j, FormSection &section, const dv::json::JSONPath &path ) {
   auto fields = j.sub( "fields" );
@@ -55,7 +47,5 @@ void dv::forms::from_json( const json &j, FormSection &section, const dv::json::
   }
 
   auto label = j.sub( "label" );
-  if ( label ) {
-    dv::json::JSONSerialiser<std::string>::from_json( *label, section.label, path / "label" );
-  }
+  if ( label ) { dv::json::JSONSerialiser<std::string>::from_json( *label, section.label, path / "label" ); }
 }

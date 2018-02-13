@@ -5,10 +5,12 @@
 #include "FormFwd.h" // IWYU pragma: keep
 #include "FormInput.h"
 #include <boost/variant.hpp>
-#include <memory>             // for shared_ptr, weak_ptr
+#include <memory> // for shared_ptr, weak_ptr
 
 namespace dv {
-  namespace json { class JSONPath; }
+  namespace json {
+    class JSONPath;
+  }
   namespace forms {
     class FormExpression;
 
@@ -26,6 +28,7 @@ namespace dv {
       void setValid( const validType &nValid );
       const visibleType &getVisible() const;
       void setVisible( const visibleType &nVisible );
+
     protected:
       requiredType required;
       validType valid;
@@ -37,4 +40,4 @@ namespace dv {
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTSIMPLE_H
+#endif // DVFORMSCPP_FORMINPUTSIMPLE_H

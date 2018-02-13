@@ -1,10 +1,10 @@
 #include "FormGenerator.h"
-#include "FormComponent.h"  // for json, to_json
-#include "FormSection.h"
-#include <UnorderedIndexedMap.h>
-#include <json.h>
-#include <sstream>
-#include <utility>          // for pair
+#include "FormComponent.h"       // for json, to_json
+#include "FormSection.h"         //
+#include <UnorderedIndexedMap.h> //
+#include <json.h>                //
+#include <sstream>               //
+#include <utility>               // for pair
 
 using namespace dv::forms;
 using namespace dv::json;
@@ -23,11 +23,9 @@ std::string FormGenerator::getSchema() const {
 json FormGenerator::generateSchema() const {
   json schema;
   schema["$schema"] = "http://dvforms.org/v1#";
-  if ( !sections.empty() ) {
-    schema["sections"] = buildSections();
-  }
-//  schema["properties"] = {};
-//  schema["expressions"] = {};
+  if ( !sections.empty() ) { schema["sections"] = buildSections(); }
+  //  schema["properties"] = {};
+  //  schema["expressions"] = {};
   return schema;
 }
 
