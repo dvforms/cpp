@@ -2,7 +2,7 @@
 #ifndef DVFORMSCPP_FORMFIELDTYPEDETERMINER_H
 #define DVFORMSCPP_FORMFIELDTYPEDETERMINER_H
 
-#include "FormComponent.h"
+#include "FormFwd.h"
 #include <jsonfwd.h>
 
 namespace dv {

@@ -16,6 +16,7 @@ json FormSection::generateSchema() const {
 
   size_t i = 1;
   auto &f = rt["fields"];
+  f = {};
   for ( const auto &item: fields ) {
     auto j = item.second->generateSchema();
     j["order"] = i++;
@@ -30,7 +31,7 @@ json FormSection::generateSchema() const {
 
 void FormSection::addComponent( const std::string &name, const FormComponentPtr &field ) {
   if ( field ) {
-    fields.emplace( name, field );
+    fields.emplace( fields.end(), name, field );
   }
 }
 

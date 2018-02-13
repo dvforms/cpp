@@ -15,6 +15,7 @@
     { "include": [ "<ext/alloc_traits.h>", "private", "<unordered_set>", "public" ] },
     { "include": [ "\"json.h\"", "private", "<json.h>", "public" ] },
     { "include": [ "\"jsonfwd.h\"", "private", "<jsonfwd.h>", "public" ] },
+    { "include": [ "\"UnorderedIndexedMap.h\"", "private", "<UnorderedIndexedMap.h>", "public" ] },
     { "symbol": [ "boost::variant<>", "public", "<boost/variant.hpp>", "public" ] },
     { "symbol": [ "boost::get<>", "public", "<boost/variant/get.hpp>", "public" ] },
     { "symbol": [ "int64_t", "public", "<cstdint>", "public" ] }

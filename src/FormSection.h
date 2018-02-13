@@ -2,11 +2,13 @@
 #ifndef DVFORMSCPP_FORMSECTION_H
 #define DVFORMSCPP_FORMSECTION_H
 
+#include "FormFwd.h"
 #include "FormComponent.h"
-#include "FormGenerator.h"
+#include "FormGenerator.h" // IWYU pragma: keep
+#include <list>
 #include <memory>
-#include <unordered_map>
 #include <string>              // for string
+#include <utility>
 
 namespace dv {
   namespace json { class JSONPath; }
@@ -24,7 +26,7 @@ namespace dv {
       void setLabel( const std::string &nLabel );
 
      protected:
-      std::unordered_map<std::string, FormComponentPtr> fields;
+      std::list<std::pair<std::string, FormComponentPtr>> fields;
       std::string label;
       virtual void addComponent( const std::string &name, const FormComponentPtr & );
       friend void from_json( const json &j, FormSection &section, const dv::json::JSONPath &path );

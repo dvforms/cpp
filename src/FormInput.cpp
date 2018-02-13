@@ -1,5 +1,6 @@
 #include "FormInput.h"
 #include <json.h>  // for JSON
+#include <memory>
 
 using namespace dv::forms;
 using namespace dv::json;
@@ -19,4 +20,15 @@ json FormInput::generateSchema() const {
   }
 
   return rt;
+}
+
+void dv::forms::from_json( const json &j, FormInput &input, const dv::json::JSONPath &path ) {
+  auto label = j.sub( "label" );
+  if ( label ) {
+    dv::json::JSONSerialiser<FormInput>::from_json( *label, input.label, path / "label" );
+  }
+  auto help = j.sub( "help" );
+  if ( help ) {
+    dv::json::JSONSerialiser<FormInput>::from_json( *help, input.help, path / "help" );
+  }
 }

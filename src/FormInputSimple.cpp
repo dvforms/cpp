@@ -1,18 +1,28 @@
 #include "FormInputSimple.h"
 #include "FormComponent.h"  // for to_json
 #include "FormExpression.h" // IWYU pragma: keep
-#include "FormGenerator.h"
 #include <json.h>
 
 using namespace dv::forms;
 using namespace dv::json;
 
 FormInputSimple::FormInputSimple() = default;
+namespace dv {
+  namespace forms {
+    template<typename T> bool operator==( const std::weak_ptr<T> &a, const std::weak_ptr<T> &b ) {
+      return a.lock() == b.lock();
+    }
+  }
+}
+
+bool operator!=( const FormInputSimple::requiredType &require, bool value ) {
+  return require != FormInputSimple::requiredType( value );
+}
 
 json FormInputSimple::generateSchema() const {
   auto rt = FormInput::generateSchema();
 
-  if ( !required.empty() ) {
+  if ( required != false ) {
     rt["required"] = required;
   }
   if ( valid ) {
@@ -51,7 +61,8 @@ void FormInputSimple::setVisible( const FormInputSimple::visibleType &nVisible )
   visible = nVisible;
 }
 
-void dv::forms::from_json( const json &j, FormInputSimple &input, const dv::json::JSONPath &/*path*/ ) {
+void dv::forms::from_json( const json &j, FormInputSimple &input, const dv::json::JSONPath &path ) {
+  from_json( j, *static_cast<FormInput *>(&input), path );
   auto val = j.sub( "required" );
   if ( val ) {
     if ( val->is<bool>() ) {

@@ -2,10 +2,10 @@
 #ifndef DVFORMSCPP_FORMINPUTSIMPLE_H
 #define DVFORMSCPP_FORMINPUTSIMPLE_H
 
+#include "FormFwd.h" // IWYU pragma: keep
 #include "FormInput.h"
 #include <boost/variant.hpp>
 #include <memory>             // for shared_ptr, weak_ptr
-#include "FieldType.h"        // for json
 
 namespace dv {
   namespace json { class JSONPath; }

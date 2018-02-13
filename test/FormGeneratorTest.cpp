@@ -1,12 +1,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>    // IWYU pragma: keep
-#include <FormGenerator.h>
-#include <FormSection.h>
-#include <FormInputText.h>
+#include "Forms.h"
 #include <json.h>           // for JSON, JSONDiffListenerImpl, operator<<
 #include <fstream>
 #include <memory>           // for __shared_ptr_access, shared_ptr, make_shared
-#include "FieldType.h"      // for json
 
 using namespace testing;
 using namespace dv::forms;
@@ -27,13 +24,14 @@ TEST_F( FormGeneratorTest, Test ) {
   JSON expected;
   expected["$schema"] = "http://dvforms.org/v1#";
   expected["sections"]["ABC"]["order"] = 2;
-  expected["sections"]["ABC"]["fields"] = nullptr;
+expected["sections"]["ABC"]["fields"] = {
+};
   expected["sections"]["Main"]["order"] = 1;
   expected["sections"]["Main"]["fields"]["test"]["order"] = 1;
   expected["sections"]["Main"]["fields"]["test"]["required"] = true;
   expected["sections"]["Main"]["fields"]["test"]["type"] = "text";
-  expected["expressions"] = {};
-  expected["properties"] = {};
+//  expected["expressions"] = {};
+//  expected["properties"] = {};
   auto schema = form->generateSchema();
 
   JSONDiffListenerImpl listener;
@@ -56,5 +54,7 @@ TEST_F( FormGeneratorTest, ParseTest ) {
   auto schema = form->generateSchema();
   JSONDiffListenerImpl listener;
   j.compare( schema, listener );
-//  EXPECT_EQ( j, schema ) << listener;
+EXPECT_EQ( j, schema
+) <<
+listener;
 }

@@ -4,10 +4,16 @@ add_library ( dvforms SHARED
               FormInput.cpp FormInput.h
               FormInputText.cpp FormInputText.h
               FormSection.cpp FormSection.h
-              FieldType.h FieldType.cpp
+              FieldType.cpp
               FormInputSimple.cpp FormInputSimple.h
               FormExpression.cpp FormExpression.h
-              FormFieldTypeDeterminer.cpp FormFieldTypeDeterminer.h )
+              FormFieldTypeDeterminer.cpp FormFieldTypeDeterminer.h
+              FormInputStatic.cpp FormInputStatic.h
+              FormInputEnum.cpp FormInputEnum.h
+              FormInputCurrency.cpp FormInputCurrency.h
+              FormInputNumber.cpp FormInputNumber.h
+              FormInputMultiple.cpp FormInputMultiple.h
+              FormInputRepeating.cpp FormInputRepeating.h FormFwd.h Forms.h )
 target_link_libraries ( dvforms PUBLIC Boost::boost dvjson )
 set_target_properties ( dvforms PROPERTIES VERSION ${PROJECT_VERSION} )
 get_target_property ( HEADERS dvforms SOURCES )

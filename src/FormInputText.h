@@ -2,8 +2,8 @@
 #ifndef DVFORMSCPP_FORMINPUTTEXT_H
 #define DVFORMSCPP_FORMINPUTTEXT_H
 
+#include "FormFwd.h" // IWYU pragma: keep
 #include "FormInputSimple.h"
-#include "FieldType.h"        // for FieldType
 
 namespace dv {
   namespace forms {

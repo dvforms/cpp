@@ -6,7 +6,8 @@
             "fields": {
                 "address": {
                     "type": "static",
-                    "label": "Property Address"
+                    "label": "Property Address",
+                    "order": 1
                 },
                 "pt_jr_id": {
                     "type": "enum",
@@ -36,7 +37,8 @@
                         "TBE Multiple Dwellings on One Title",
                         "Vacant Land"
                     ],
-                    "required": true
+                    "required": true,
+                    "order": 2
                 },
                 "ptt_id": {
                     "type": "enum",
@@ -57,25 +59,30 @@
                         "13": "CrownLease",
                         "14": "Leasehold",
                         "15": "Other"
-                    }
+                    },
+                    "order": 3
                 },
                 "lot": {
                     "type": "text",
                     "label": "Lot/Unit No",
-                    "help": "Lot 123"
+                    "help": "Lot 123",
+                    "order": 4
                 },
                 "plan_no": {
                     "type": "text",
                     "label": "Plan No",
-                    "help": "(e.g DP/SP/CP)"
+                    "help": "(e.g DP/SP/CP)",
+                    "order": 5
                 },
                 "volume": {
                     "type": "text",
-                    "label": "Volume/Folio No"
+                    "label": "Volume/Folio No",
+                    "order": 6
                 },
                 "further_detail": {
                     "type": "text",
-                    "label": "Further Detail"
+                    "label": "Further Detail",
+                    "order": 7
                 },
                 "ppt_restriction": {
                     "type": "text",
@@ -88,11 +95,13 @@
                         "Party Wall Rights",
                         "Sewer Drainage Easements",
                         "Sewer Easement"
-                    ]
+                    ],
+                    "order": 8
                 },
                 "ppt_dimensions": {
                     "type": "text",
-                    "label": "ppt_dimensions"
+                    "label": "ppt_dimensions",
+                    "order": 9
                 },
                 "area": {
                     "type": "multiple",
@@ -100,7 +109,8 @@
                     "fields": {
                         "ppt_area": {
                             "type": "decimal",
-                            "label": ""
+                            "label": "",
+                            "order": 1
                         },
                         "ppt_area_type": {
                             "type": "enum",
@@ -109,22 +119,27 @@
                             "options": [
                                 "m2",
                                 "ha"
-                            ]
+                            ],
+                            "order": 2
                         }
-                    }
+                    },
+                    "order": 10
                 },
                 "ppt_zone": {
                     "type": "text",
-                    "label": "ppt_zone"
+                    "label": "ppt_zone",
+                    "order": 11
                 },
                 "ppt_zone_effect": {
                     "type": "text",
-                    "label": "ppt_zone_effect"
+                    "label": "ppt_zone_effect",
+                    "order": 12
                 },
                 "ppt_lga": {
                     "type": "text",
                     "label": "ppt_lga",
-                    "visible": "showx"
+                    "visible": "showx",
+                    "order": 13
                 },
                 "building_type": {
                     "type": "enum",
@@ -140,7 +155,8 @@
                         "Villa",
                         "Multiple - Occupancy See Main Building Description",
                         "Rental Flats"
-                    ]
+                    ],
+                    "order": 14
                 },
                 "currentuse": {
                     "type": "enum",
@@ -158,7 +174,8 @@
                         "10": "Rural",
                         "11": "Rural / Residential"
                     },
-                    "valid": "showy"
+                    "valid": "showy",
+                    "order": 15
                 },
                 "built": {
                     "type": "multiple",
@@ -172,18 +189,22 @@
                                 "Year Built",
                                 "Circa",
                                 "To Be Erected"
-                            ]
+                            ],
+                            "order": 1
                         },
                         "propdet_year_built": {
                             "type": "number",
-                            "label": ""
+                            "label": "",
+                            "order": 2
                         }
-                    }
+                    },
+                    "order": 16
                 },
                 "propdet_value_rent_actual": {
                     "type": "currency",
                     "label": "Rental (Curr.)",
-                    "valid": "rentvalid"
+                    "valid": "rentvalid",
+                    "order": 17
                 },
                 "additions": {
                     "type": "repeating",
@@ -193,45 +214,56 @@
                         "propdet_year_built_additions": {
                             "type": "number",
                             "placeholder": "Year",
-                            "label": ""
+                            "label": "",
+                            "order": 1
                         },
                         "additions": {
                             "type": "text",
                             "placeholder": "Description",
-                            "label": ""
+                            "label": "",
+                            "order": 2
                         }
                     },
-                    "minRows": 1
+                    "minRows": 1,
+                    "order": 18
                 }
-            }
+            },
+            "order": 1
         },
         "risk": {
             "label": "Risk",
-            "fields": { }
+            "fields": { },
+            "order": 2
         },
         "value": {
             "label": "Value",
-            "fields": { }
+            "fields": { },
+            "order": 3
         },
         "land": {
             "label": "Land",
-            "fields": { }
+            "fields": { },
+            "order": 4
         },
         "building": {
             "label": "Building",
-            "fields": { }
+            "fields": { },
+            "order": 5
         },
         "sales": {
             "label": "Sales Evidence",
-            "fields": { }
+            "fields": { },
+            "order": 6
         },
         "comments": {
             "label": "Comments",
-            "fields": { }
+            "fields": { },
+            "order": 7
         },
         "market_risk": {
             "label": "Market Risk",
-            "fields": { }
+            "fields": { },
+            "order": 8
         }
     },
     "expressions": {

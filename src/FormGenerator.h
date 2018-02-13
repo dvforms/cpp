@@ -2,22 +2,18 @@
 #ifndef DVFORMS_DVFORMGENERATOR_H
 #define DVFORMS_DVFORMGENERATOR_H
 
-#include "FormComponent.h"// IWYU pragma: keep
-#include <json.h>
-#include <string>
-#include <unordered_map>
+#include "FormFwd.h"
+#include <UnorderedIndexedMap.h>
 #include <algorithm>      // for forward
+#include <functional>
+#include <map>
 #include <memory>         // for shared_ptr, enable_shared_from_this, make_shared
+#include <string>
 
 namespace dv {
   namespace forms {
-    using json = dv::json::JSON;
-    class FormSection;
-    typedef std::shared_ptr<FormSection> FormSectionPtr;
-    class FormGenerator;
-    typedef std::shared_ptr<FormGenerator> FormGeneratorPtr;
     class FormGenerator : public std::enable_shared_from_this<FormGenerator> {
-    public:
+     public:
       FormGenerator();
       FormGenerator( const FormGenerator & ) = default;
       FormGenerator( FormGenerator && ) = default;
@@ -27,14 +23,15 @@ namespace dv {
       void parseJSON( const json &j );
       virtual FormSectionPtr &addSection( const std::string &name );
 
-      FormGenerator &operator=( const FormGenerator & ) = default;
-      FormGenerator &operator=( FormGenerator && ) = default;
+      FormGenerator &operator=( const FormGenerator & );
+      FormGenerator &operator=( FormGenerator && ) noexcept = default;
 
       template<typename T, typename... Args>
       const std::shared_ptr<T> create( Args... );
-    protected:
+     protected:
       json buildSections() const;
-      std::unordered_map<std::string, FormSectionPtr> sections;
+      dv::json::UnorderedIndexedMap<std::string, FormSectionPtr> sections;
+      std::map<std::string, FormExpressionPtr> expressions;
     };
 
     template<typename T, typename... Args>
