@@ -13,4 +13,4 @@ namespace dv {
   }
 }
 
-#endif //DVFORMSCPP_FORMINPUTDECIMAL_H
+#endif // DVFORMSCPP_FORMINPUTDECIMAL_H

@@ -13,9 +13,7 @@ json FormInputText::generateSchema() const {
   if ( !suggestions.empty() ) {
     json &a = rt["suggestions"];
     a = dv::json::Type::ARRAY;
-    for ( const auto &it : suggestions ) {
-      a.emplaceBack( std::make_shared<json>( it ) );
-    }
+    for ( const auto &it : suggestions ) { a.emplaceBack( it ); }
   }
   return rt;
 }

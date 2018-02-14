@@ -12,16 +12,14 @@ namespace dv {
     class JSONPath;
   }
   namespace forms {
-    class FormExpression;
-
     class FormInputSimple : public FormInput {
     public:
       FormInputSimple();
       ~FormInputSimple() override;
       json generateSchema() const override;
-      typedef boost::variant<bool, std::weak_ptr<FormExpression>> requiredType;
-      typedef std::shared_ptr<FormExpression> validType;
-      typedef std::shared_ptr<FormExpression> visibleType;
+      typedef boost::variant<bool, FormExpressionWrapperWeakPtr> requiredType;
+      typedef FormExpressionWrapperWeakPtr validType;
+      typedef FormExpressionWrapperWeakPtr visibleType;
       const requiredType &getRequired() const;
       void setRequired( const requiredType &nRequired );
       const validType &getValid() const;
@@ -30,6 +28,8 @@ namespace dv {
       void setVisible( const visibleType &nVisible );
       const std::string &getPlaceholder() const;
       void setPlaceholder( const std::string &placeholder );
+      size_t getSize() const;
+      void setSize( size_t size );
       void fromJSON( const json &j, const dv::json::JSONPath &path ) override;
 
     protected:
@@ -37,6 +37,9 @@ namespace dv {
       validType valid;
       visibleType visible;
       std::string placeholder;
+      size_t size{ 0 };
+
+      FormExpressionWrapperPtr jsonToExpression( const json &j, const dv::json::JSONPath &path );
     };
   }
 }

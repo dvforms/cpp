@@ -2,6 +2,4 @@
 
 using namespace dv::forms;
 
-FieldType FormInputDecimal::getType() const {
-  return FieldType::DECIMAL;
-}
+FieldType FormInputDecimal::getType() const { return FieldType::DECIMAL; }

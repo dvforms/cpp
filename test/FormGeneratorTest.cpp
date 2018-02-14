@@ -17,7 +17,7 @@ TEST_F( FormGeneratorTest, Test ) {
   auto form = std::make_shared<FormGenerator>();
   auto section = form->addSection( "Main" );
   form->addSection( "ABC" );
-  auto field = section->add<FormInputText>( "test" );
+  auto field = section->addField<FormInputText>( "test" );
   field->setRequired( true );
   JSON expected;
   expected["$schema"] = "http://dvforms.org/v1#";
@@ -47,7 +47,11 @@ TEST_F( FormGeneratorTest, ParseTest ) {
   ASSERT_TRUE( in.is_open() );
   p.parseInto( j, in );
   ASSERT_NE( j, nullptr );
-  ASSERT_NO_THROW( form->parseJSON( j ) );
+  try {
+    form->parseJSON( j );
+  } catch ( std::exception &e ) {
+    FAIL() << e.what();
+  }
 
   auto schema = form->generateSchema();
   JSONDiffListenerImpl listener;

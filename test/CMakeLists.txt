@@ -1,8 +1,9 @@
 add_executable ( testforms
                  testmain.cpp
                  FormGeneratorTest.cpp
+                 FormExpressionGreaterThanTest.cpp
                  example.json
-                 )
+                 BooleanExpressionMatcher.h )
 target_link_libraries ( testforms GTest GMock dvforms )
 target_compile_definitions ( testforms PRIVATE -DSOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}" )
 

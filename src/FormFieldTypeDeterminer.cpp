@@ -3,7 +3,7 @@
 #include "FormGenerator.h"      // for FormGeneratorPtr, FormGenerator
 #include "FormInput.h"          //
 #include "FormInputCurrency.h"  //
-#include "FormInputDecimal.h" //
+#include "FormInputDecimal.h"   //
 #include "FormInputEnum.h"      //
 #include "FormInputMultiple.h"  //
 #include "FormInputNumber.h"    //

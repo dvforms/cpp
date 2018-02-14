@@ -14,6 +14,7 @@ namespace dv {
       FieldType getType() const override;
       json generateSchema() const override;
       void fromJSON( const json &j, const dv::json::JSONPath &path ) override;
+
     protected:
       std::vector<std::string> suggestions;
     };

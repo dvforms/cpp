@@ -26,4 +26,3 @@ void FormSection::fromJSON( const json &j, const dv::json::JSONPath &path ) {
   auto value = j.sub( "label" );
   if ( value ) { dv::json::JSONSerialiser<std::string>::from_json( *value, label, path / "label" ); }
 }
-

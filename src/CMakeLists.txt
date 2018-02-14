@@ -13,7 +13,17 @@ add_library ( dvforms SHARED
               FormInputCurrency.cpp FormInputCurrency.h
               FormInputNumber.cpp FormInputNumber.h
               FormInputMultiple.cpp FormInputMultiple.h
-              FormInputRepeating.cpp FormInputRepeating.h FormFwd.h Forms.h FieldContainer.cpp FieldContainer.h FormInputDecimal.cpp FormInputDecimal.h )
+              FormInputRepeating.cpp FormInputRepeating.h
+              FormFwd.h
+              Forms.h
+              FieldContainer.cpp FieldContainer.h
+              FormInputDecimal.cpp FormInputDecimal.h
+              FormExpressionContext.cpp FormExpressionContext.h
+              FormExpressionAnd.cpp FormExpressionAnd.h
+              FormExpressionEquals.cpp FormExpressionEquals.h
+              FormExpressionOr.cpp FormExpressionOr.h
+              FormExpressionWrapper.cpp FormExpressionWrapper.h
+              FormExpressionContainer.h FormExpressionNot.cpp FormExpressionNot.h FormExpressionBoolean.cpp FormExpressionBoolean.h FormExpressionEmpty.cpp FormExpressionEmpty.h FormExpressionNested.cpp FormExpressionNested.h FormExpressionField.cpp FormExpressionField.h FormExpressionValue.cpp FormExpressionValue.h FormExpressionGreaterThan.cpp FormExpressionGreaterThan.h )
 target_link_libraries ( dvforms PUBLIC Boost::boost dvjson )
 set_target_properties ( dvforms PROPERTIES VERSION ${PROJECT_VERSION} )
 get_target_property ( HEADERS dvforms SOURCES )

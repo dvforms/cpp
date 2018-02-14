@@ -14,6 +14,7 @@ namespace dv {
       json generateSchema() const override;
       static const size_t Unlimited = std::numeric_limits<size_t>::max();
       void fromJSON( const json &j, const dv::json::JSONPath &path ) override;
+
     protected:
       bool inlineValue{ false };
       size_t minRows{ 0 };

@@ -3,16 +3,18 @@
 #define DVFORMS_DVFORMGENERATOR_H
 
 #include "FormFwd.h"
-#include <UnorderedIndexedMap.h>
-#include <algorithm> // for forward
-#include <functional>
-#include <map>
-#include <memory> // for shared_ptr, enable_shared_from_this, make_shared
-#include <string>
+#include "FormExpressionContainer.h"
+#include "FormExpressionWrapper.h"
+#include <UnorderedIndexedMap.h> //
+#include <algorithm>             // for forward
+#include <functional>            //
+#include <map>                   // map
+#include <memory>                // for shared_ptr, enable_shared_from_this, make_shared
+#include <string>                // for string
 
 namespace dv {
   namespace forms {
-    class FormGenerator : public std::enable_shared_from_this<FormGenerator> {
+    class FormGenerator : public std::enable_shared_from_this<FormGenerator>, public FormExpressionContainer {
     public:
       FormGenerator();
       FormGenerator( const FormGenerator & ) = default;
@@ -22,6 +24,8 @@ namespace dv {
       json generateSchema() const;
       void parseJSON( const json &j );
       virtual FormSectionPtr &addSection( const std::string &name );
+      FormExpressionWrapperPtr getExpression( const std::string &name ) const override;
+      template<typename T> std::shared_ptr<T> addExpression( const std::string &name );
 
       FormGenerator &operator=( const FormGenerator & );
       FormGenerator &operator=( FormGenerator && ) noexcept = default;
@@ -31,13 +35,22 @@ namespace dv {
     protected:
       json buildSections() const;
       dv::json::UnorderedIndexedMap<std::string, FormSectionPtr> sections;
-      std::map<std::string, FormExpressionPtr> expressions;
+      std::map<std::string, FormExpressionWrapperPtr> expressions;
+      friend void from_json( const json &j, FormGenerator &form, const dv::json::JSONPath &path );
+      json buildExpressions() const;
     };
 
     template<typename T, typename... Args> const std::shared_ptr<T> FormGenerator::create( Args... args ) {
-      auto rt = std::make_shared<T>( std::forward<Args...>( args )... );
+      auto rt = std::make_shared<T>( std::forward<Args>( args )... );
       rt->setForm( shared_from_this() );
       return rt;
+    }
+
+    template<typename T>
+    std::shared_ptr<T> FormGenerator::addExpression( const std::string &name ) {
+      auto exp = create<T>();
+      expressions.emplace( name, create<FormExpressionWrapper>( name, exp ) );
+      return exp;
     }
 
     void from_json( const json &j, FormGenerator &form, const dv::json::JSONPath &path );

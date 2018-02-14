@@ -27,12 +27,10 @@ json FormInputEnum::generateSchema() const {
   if ( assoc ) {
     for ( const auto &item : options ) { opt[toKey( item.first )] = item.second; }
   } else {
-    for ( const auto &item : options ) { opt.emplaceBack( std::make_shared<json>( item.second ) ); }
+    for ( const auto &item : options ) { opt.emplaceBack( item.second ); }
   }
 
-  if ( !defaultValue.empty() ) {
-    j["default"] = defaultValue;
-  }
+  if ( !defaultValue.empty() ) { j["default"] = defaultValue; }
 
   return j;
 }
@@ -51,9 +49,7 @@ void FormInputEnum::fromJSON( const json &j, const dv::json::JSONPath &path ) {
     }
   }
   value = j.sub( "default" );
-  if ( value ) {
-    dv::json::JSONSerialiser<FormInputEnum>::from_json( *value, defaultValue, path / "default" );
-  }
+  if ( value ) { dv::json::JSONSerialiser<FormInputEnum>::from_json( *value, defaultValue, path / "default" ); }
 }
 
 std::string FormInputEnum::toKey( const FormInputEnum::keyType &key ) const { return boost::get<std::string>( key ); }

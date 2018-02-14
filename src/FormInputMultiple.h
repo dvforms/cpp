@@ -2,9 +2,9 @@
 #ifndef DVFORMSCPP_FORMINPUTMULTIPLE_H
 #define DVFORMSCPP_FORMINPUTMULTIPLE_H
 
+#include "FieldContainer.h"
 #include "FormFwd.h"
 #include "FormInput.h"
-#include "FieldContainer.h"
 
 namespace dv {
   namespace forms {
@@ -13,6 +13,7 @@ namespace dv {
       FieldType getType() const override;
       void fromJSON( const json &j, const dv::json::JSONPath &path ) override;
       json generateSchema() const override;
+
     public:
     };
   }

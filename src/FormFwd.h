@@ -4,18 +4,24 @@
 
 #ifdef __has_attribute
 #if __has_attribute( pure )
-#define PURE __attribute__( ( pure ) )
+#define DVFORMS_PURE __attribute__( ( pure ) )
 #else
-#define PURE
+#define DVFORMS_PURE
 #endif
 #if __has_attribute( unused )
-#define UNUSED __attribute__( ( unused ) )
+#define DVFORMS_UNUSED __attribute__( ( unused ) )
 #else
-#define UNUSED
+#define DVFORMS_UNUSED
 #endif
+  #if __has_attribute( warn_unused_result )
+    #define DVFORMS_WARN_UNUSED __attribute__((warn_unused_result))
+  #else
+    #define DVFORMS_WARN_UNUSED
+  #endif
 #else
-#define PURE
-#define UNUSED
+#define DVFORMS_PURE
+#define DVFORMS_UNUSED
+#define DVFORMS_WARN_UNUSED
 #endif
 
 #include <iosfwd> // for ostream
@@ -25,6 +31,7 @@
 namespace dv {
   namespace forms {
     using json = dv::json::JSON;
+    extern const std::string currentSchemaVersion;
 
     enum class FieldType { TEXT, NUMBER, EMAIL, CURRENCY, STATIC, ENUM, MULTIPLE, REPEATING, DECIMAL };
 
@@ -34,6 +41,13 @@ namespace dv {
 
     class FormExpression;
     typedef std::shared_ptr<FormExpression> FormExpressionPtr;
+    typedef std::weak_ptr<FormExpression> FormExpressionWeakPtr;
+    class FormExpressionWrapper;
+    typedef std::shared_ptr<FormExpressionWrapper> FormExpressionWrapperPtr;
+    typedef std::weak_ptr<FormExpressionWrapper> FormExpressionWrapperWeakPtr;
+    class FormExpressionContainer;
+    typedef std::shared_ptr<FormExpressionContainer> FormExpressionContainerPtr;
+    class FormExpressionContext;
     class FormGenerator;
     typedef std::shared_ptr<FormGenerator> FormGeneratorPtr;
     typedef std::weak_ptr<FormGenerator> FormGeneratorWeakPtr;

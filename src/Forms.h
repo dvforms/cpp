@@ -4,6 +4,8 @@
 
 // IWYU pragma: begin_exports
 #include "FormExpression.h"
+#include "FormExpressionGreaterThan.h"
+#include "FormExpressionValue.h"
 #include "FormFwd.h"
 #include "FormGenerator.h"
 #include "FormInput.h"

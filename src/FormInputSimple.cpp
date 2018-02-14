@@ -1,7 +1,8 @@
 #include "FormInputSimple.h"
 #include "FormComponent.h"  // for to_json
 #include "FormExpression.h" // IWYU pragma: keep
-#include "../../../../../opt/local/libexec/llvm-5.0/include/c++/v1/string"
+#include "FormExpressionContext.h"
+#include "FormExpressionWrapper.h"
 #include <json.h>
 
 using namespace dv::forms;
@@ -20,9 +21,10 @@ json FormInputSimple::generateSchema() const {
   auto rt = FormInput::generateSchema();
 
   if ( required != false ) { rt["required"] = required; }
-  if ( valid ) { rt["valid"] = valid; }
-  if ( visible ) { rt["visible"] = visible; }
+  if ( !valid.expired() ) { rt["valid"] = valid.lock(); }
+  if ( !visible.expired() ) { rt["visible"] = visible.lock(); }
   if ( !placeholder.empty() ) { rt["placeholder"] = placeholder; }
+  if ( size != 0 ) { rt["size"] = size; }
 
   return rt;
 }
@@ -41,13 +43,13 @@ const FormInputSimple::visibleType &FormInputSimple::getVisible() const { return
 
 void FormInputSimple::setVisible( const FormInputSimple::visibleType &nVisible ) { visible = nVisible; }
 
-const std::string &FormInputSimple::getPlaceholder() const {
-  return placeholder;
-}
+const std::string &FormInputSimple::getPlaceholder() const { return placeholder; }
 
-void FormInputSimple::setPlaceholder( const std::string &nPlaceholder ) {
-  placeholder = nPlaceholder;
-}
+void FormInputSimple::setPlaceholder( const std::string &nPlaceholder ) { placeholder = nPlaceholder; }
+
+size_t FormInputSimple::getSize() const { return size; }
+
+void FormInputSimple::setSize( size_t nSize ) { size = nSize; }
 
 void FormInputSimple::fromJSON( const json &j, const dv::json::JSONPath &path ) {
   FormInput::fromJSON( j, path );
@@ -56,11 +58,39 @@ void FormInputSimple::fromJSON( const json &j, const dv::json::JSONPath &path ) 
     if ( val->is<bool>() ) {
       required = val->as<bool>();
     } else {
-      //      input.required = input.getForm()->getExpression( val.as<std::string>() );
+      std::string expressionName;
+      dv::json::JSONSerialiser<FormInputSimple>::from_json( *val, expressionName, path / "required" );
+      auto exp = JSONContext::current()->get<FormExpressionContext>()->getExpression( expressionName );
+      if ( !exp ) {
+        JSONContext::current()->get<JSONErrorCollector>()->error( path / "required", "Expression " + expressionName + " not found" );
+      } else {
+        required = exp;
+      }
     }
   }
   val = j.sub( "placeholder" );
+  if ( val ) { dv::json::JSONSerialiser<FormInputSimple>::from_json( *val, placeholder, path / "placeholder" ); }
+
+  val = j.sub( "size" );
+  if ( val ) { dv::json::JSONSerialiser<FormInputSimple>::from_json( *val, size, path / "size" ); }
+
+  val = j.sub( "valid" );
   if ( val ) {
-    dv::json::JSONSerialiser<FormInputSimple>::from_json( *val, placeholder, path / "placeholder" );
+    valid = jsonToExpression( *val, path / "valid" );
   }
+  val = j.sub( "visible" );
+  if ( val ) {
+    visible = jsonToExpression( *val, path / "visible" );
+  }
+}
+
+FormExpressionWrapperPtr FormInputSimple::jsonToExpression( const json &j, const dv::json::JSONPath &path ) {
+  FormExpressionWrapperPtr rt;
+  std::string expressionName;
+  dv::json::JSONSerialiser<FormInputSimple>::from_json( j, expressionName, path );
+  rt = JSONContext::current()->get<FormExpressionContext>()->getExpression( expressionName );
+  if ( !rt ) {
+    JSONContext::current()->get<JSONErrorCollector>()->error( path, "Expression " + expressionName + " not found" );
+  }
+  return rt;
 }
