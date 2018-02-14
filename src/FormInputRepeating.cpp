@@ -1,4 +1,6 @@
 #include "FormInputRepeating.h"
+#include <json.h>  // for JSON, JSONPath, JSONSerialiser, Type, Type::STRING
+#include <memory>  // for shared_ptr, __shared_ptr_access, __shared_ptr_access<>::element_type
 
 using namespace dv::forms;
 

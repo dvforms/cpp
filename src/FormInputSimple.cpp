@@ -2,8 +2,9 @@
 #include "FormComponent.h"  // for to_json
 #include "FormExpression.h" // IWYU pragma: keep
 #include "FormExpressionContext.h"
-#include "FormExpressionWrapper.h"
+#include "FormExpressionWrapper.h"// IWYU pragma: keep
 #include <json.h>
+#include <memory>                   // for shared_ptr, allocator, __shared_ptr_access, __shared_ptr_access<>::element_type, weak_ptr
 
 using namespace dv::forms;
 using namespace dv::json;

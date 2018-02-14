@@ -3,7 +3,7 @@
 #define DVFORMSCPP_FORMEXPRESSIONCONTAINER_H
 
 #include "FormFwd.h"
-#include "FormExpression.h"
+#include <string.h>
 
 namespace dv {
   namespace forms {

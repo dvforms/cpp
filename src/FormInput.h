@@ -5,6 +5,7 @@
 #include "FormComponent.h"
 #include "FormFwd.h"
 #include <string> // for string
+#include <jsonfwd.h>
 
 namespace dv {
   namespace forms {

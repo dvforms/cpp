@@ -11,6 +11,10 @@
 #include "FormExpressionField.h"
 #include "FormExpressionValue.h"
 #include "FormExpressionGreaterThan.h"
+#include <json.h>                     // for JSONContext, JSON, JSONPath, JSONErrorCollector, operator+, JSON::ObjectIterator, JSONSerialiser, Type, Type::O...
+#include <stddef.h>                   // for size_t
+#include <utility>                    // for pair
+#include "FormGenerator.h"            // for FormGenerator
 
 using namespace dv::forms;
 using dv::json::JSONContext;

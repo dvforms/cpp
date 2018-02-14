@@ -1,14 +1,13 @@
 #include "FormFieldTypeDeterminer.h"
 #include "FormFwd.h"            //
+#include "FormComponent.h"       // for from_json
 #include "FormGenerator.h"      // for FormGeneratorPtr, FormGenerator
-#include "FormInput.h"          //
 #include "FormInputCurrency.h"  //
 #include "FormInputDecimal.h"   //
 #include "FormInputEnum.h"      //
 #include "FormInputMultiple.h"  //
 #include "FormInputNumber.h"    //
 #include "FormInputRepeating.h" //
-#include "FormInputSimple.h"    // for from_json
 #include "FormInputStatic.h"    //
 #include "FormInputText.h"      // for FormInputText
 #include <json.h>               // for JSONContext, JSONErrorCollector, JSONPath, JSON, JSONSerialiser

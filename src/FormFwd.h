@@ -27,6 +27,7 @@
 #include <iosfwd> // for ostream
 #include <jsonfwd.h>
 #include <memory>
+#include <string>
 
 namespace dv {
   namespace forms {

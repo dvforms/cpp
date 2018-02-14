@@ -3,12 +3,8 @@
 #define DVFORMSCPP_FORMSECTION_H
 
 #include "FieldContainer.h"
-#include "FormComponent.h"
 #include "FormFwd.h"
-#include <list>
-#include <memory>
 #include <string> // for string
-#include <utility>
 
 namespace dv {
   namespace json {

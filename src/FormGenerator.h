@@ -4,13 +4,14 @@
 
 #include "FormFwd.h"
 #include "FormExpressionContainer.h"
-#include "FormExpressionWrapper.h"
+#include "FormExpressionWrapper.h" // IWYU pragma: keep
 #include <UnorderedIndexedMap.h> //
 #include <algorithm>             // for forward
 #include <functional>            //
 #include <map>                   // map
 #include <memory>                // for shared_ptr, enable_shared_from_this, make_shared
 #include <string>                // for string
+#include <jsonfwd.h>
 
 namespace dv {
   namespace forms {

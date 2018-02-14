@@ -4,7 +4,8 @@
 
 #include "FormFwd.h" // IWYU pragma: keep
 #include "FormInputSimple.h"
-
+#include <string>             // for string
+#include <vector>             // for vector
 namespace dv {
   namespace forms {
     class FormInputText : public FormInputSimple {

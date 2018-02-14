@@ -10,7 +10,7 @@ namespace dv {
     class FormExpressionOr : public FormExpressionBoolean {
     public:
     protected:
-      const char *getType() const override;
+      const char *getType() const override DVFORMS_PURE;
     };
   }
 }

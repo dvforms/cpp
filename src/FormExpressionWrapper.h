@@ -4,6 +4,8 @@
 
 #include "FormFwd.h"
 #include "FormExpression.h"
+#include <string>            // for string
+#include <jsonfwd.h>
 
 namespace dv {
   namespace forms {

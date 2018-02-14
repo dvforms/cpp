@@ -5,10 +5,12 @@
 #include "FormComponent.h"
 #include "FormExpressionContainer.h"
 #include "FormFwd.h"
-#include "FormGenerator.h"
+#include "FormGenerator.h" // IWYU pragma: keep
 #include <UnorderedIndexedMap.h>
 #include <map>
 #include <string>
+#include <functional>                 // for less
+#include <memory>                     // for shared_ptr, __shared_ptr_access, make_shared
 
 namespace dv {
   namespace forms {

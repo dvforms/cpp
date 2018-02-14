@@ -1,9 +1,10 @@
 #include "FormGenerator.h"
 #include "FormComponent.h"       // for json, to_json
 #include "FormSection.h"         //
-#include "FormExpression.h"
-#include "FormExpressionWrapper.h"
-#include "FormExpressionContext.h"
+#include "FormExpressionWrapper.h" //
+#include "FormExpressionContext.h"//
+#include "FieldContainer.h"         // for FieldContainer
+#include <stdexcept>                // for runtime_error
 #include <UnorderedIndexedMap.h> //
 #include <json.h>                //
 #include <sstream>               //

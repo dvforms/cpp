@@ -1,4 +1,6 @@
 #include "FormInputText.h"
+#include <json.h>
+#include <memory>
 
 using namespace dv::forms;
 

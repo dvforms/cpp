@@ -1,8 +1,7 @@
 #include "FormSection.h"
-#include "FormFieldTypeDeterminer.h"
 #include <cstddef> // for size_t
 #include <json.h>  // for JSON
-#include <utility> // for pair
+#include <memory>   // for shared_ptr, __shared_ptr_access, __shared_ptr_access<>::element_type
 
 using namespace dv::forms;
 using std::size_t;

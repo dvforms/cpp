@@ -5,7 +5,8 @@
 #include "FormFwd.h" // IWYU pragma: keep
 #include "FormInput.h"
 #include <boost/variant.hpp>
-#include <memory> // for shared_ptr, weak_ptr
+#include <string>             // for string
+#include <cstddef>            // for size_t
 
 namespace dv {
   namespace json {
@@ -37,7 +38,7 @@ namespace dv {
       validType valid;
       visibleType visible;
       std::string placeholder;
-      size_t size{ 0 };
+      std::size_t size{ 0 };
 
       FormExpressionWrapperPtr jsonToExpression( const json &j, const dv::json::JSONPath &path );
     };
