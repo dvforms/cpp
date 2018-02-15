@@ -21,7 +21,13 @@ bool operator!=( const FormInputSimple::requiredType &require, bool value ) { re
 json FormInputSimple::generateSchema() const {
   auto rt = FormInput::generateSchema();
 
-  if ( required != false ) { rt["required"] = required; }
+  if ( required != false ) {
+    if ( required.type() == typeid( bool ) ) {
+      rt["required"] = boost::get<bool>( required );
+    } else {
+      rt["required"] = boost::get<FormExpressionWrapperWeakPtr>( required ).lock();
+    }
+  }
   if ( !valid.expired() ) { rt["valid"] = valid.lock(); }
   if ( !visible.expired() ) { rt["visible"] = visible.lock(); }
   if ( !placeholder.empty() ) { rt["placeholder"] = placeholder; }

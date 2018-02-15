@@ -29,7 +29,7 @@ namespace dv {
       template<typename T> std::shared_ptr<T> addExpression( const std::string &name );
 
       FormGenerator &operator=( const FormGenerator & );
-      FormGenerator &operator=( FormGenerator && ) noexcept = default;
+      FormGenerator &operator=( FormGenerator && ) = default;
 
       template<typename T, typename... Args> const std::shared_ptr<T> create( Args... );
 
